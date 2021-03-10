@@ -1,0 +1,19 @@
+{
+  "name": "feriepermessislack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MirkoLoi/feriepermessislack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MirkoLoi/feriepermessislack/issues"
+  },
+  "homepage": "https://github.com/MirkoLoi/feriepermessislack#readme"
+}
