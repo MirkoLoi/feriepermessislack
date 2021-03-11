@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/MirkoLoi/feriepermessislack/issues"
   },
-  "homepage": "https://github.com/MirkoLoi/feriepermessislack#readme"
+  "homepage": "https://github.com/MirkoLoi/feriepermessislack#readme",
+  "dependencies": {
+    "@slack/bolt": "^3.3.0",
+    "dotenv": "^8.2.0"
+  }
 }
