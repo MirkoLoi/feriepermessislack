@@ -20,7 +20,7 @@ bot.event("app_mention", async ({ context, event }) => {
 
 });
 
-app.message('hello', async ({ message, say }) => {
+bot.message('hello', async ({ message, say }) => {
     // say() sends a message to the channel where the event was triggered
     await say({
       blocks: [
