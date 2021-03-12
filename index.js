@@ -5,17 +5,14 @@ const bot = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-bot.event("app_mention", async ({ context, event }) => {
 
-    console.log(context, event)
-  try{
-    await say(`Hey yoo <@${event.user}> you mentioned me`);
-  }
-  catch (e) {
-    console.log(`error responding ${e}`);
-  }
+bot.command('ferie',async ({ command, ack, say }) => {
 
-});
+    await ack();
+
+    await say(`${command.text}`, 'Hai richiesto delle ferie');
+
+})
 
 bot.message('hello', async ({ message, say }) => {
     await say(`Ciao <@${message.user}> :wave:`);
