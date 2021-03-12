@@ -11,4 +11,19 @@ const bot = new App({
   await bot.start(process.env.PORT || 3000);
 
   console.log('⚡️ Bolt app is running!');
+
+  bot.event("app_mention", async ({ context, event }) => {
+
+    try{
+      await bot.client.chat.postMessage({
+      token: context.botToken,
+      channel: event.channel,
+      text: `Hey yoo <@${event.user}> you mentioned me`
+    });
+    }
+    catch (e) {
+      console.log(`error responding ${e}`);
+    }
+  
+  });
 })();
