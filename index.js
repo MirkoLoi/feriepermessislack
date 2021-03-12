@@ -7,6 +7,7 @@ const bot = new App({
 
 bot.event("app_mention", async ({ context, event }) => {
 
+    console.log(context, event)
   try{
     await say(`Hey yoo <@${event.user}> you mentioned me`);
   }
