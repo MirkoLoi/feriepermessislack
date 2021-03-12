@@ -8,11 +8,7 @@ const bot = new App({
 bot.event("app_mention", async ({ context, event }) => {
 
   try{
-    await bot.client.chat.postMessage({
-    token: context.botToken,
-    channel: event.channel,
-    text: `Hey yoo <@${event.user}> you mentioned me`
-  });
+    await say(`Hey yoo <@${event.user}> you mentioned me`);
   }
   catch (e) {
     console.log(`error responding ${e}`);
@@ -21,8 +17,6 @@ bot.event("app_mention", async ({ context, event }) => {
 });
 
 bot.message('hello', async ({ message, say }) => {
-    // say() sends a message to the channel where the event was triggered
-    console.log(message)
     await say(`Ciao <@${message.user}> :wave:`);
   });
 
