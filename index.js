@@ -6,11 +6,11 @@ const bot = new App({
 });
 
 
-bot.command('ferie',async ({ command, ack, say }) => {
+bot.command('/ferie',async ({ command, ack, say }) => {
 
     await ack();
 
-    await say(`${command.text}`, 'Hai richiesto delle ferie');
+    await say(`${command.text}, Hai richiesto delle ferie`);
 
 })
 
