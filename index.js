@@ -12,7 +12,7 @@ bot.command('/ferie',async ({ command, ack, say }) => {
 
     console.log(command);
 
-    await say(`{
+    await say({
         "blocks": [
             {
                 "type": "actions",
@@ -50,7 +50,7 @@ bot.command('/ferie',async ({ command, ack, say }) => {
                 ]
             }
         ]
-    }`);
+    });
 
 });
 
