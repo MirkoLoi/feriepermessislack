@@ -10,13 +10,49 @@ bot.command('/ferie',async ({ command, ack, say }) => {
 
     await ack();
 
-    await say(`${command.text}, Hai richiesto delle ferie`);
+    console.log(command);
+
+    await say(`{
+        "blocks": [
+            {
+                "type": "actions",
+                "elements": [
+                    {
+                        "type": "datepicker",
+                        "initial_date": "1990-04-28",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select a date",
+                            "emoji": true
+                        },
+                        "action_id": "actionId-0"
+                    },
+                    {
+                        "type": "datepicker",
+                        "initial_date": "1990-04-28",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select a date",
+                            "emoji": true
+                        },
+                        "action_id": "actionId-1"
+                    },
+                    {
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Click Me",
+                            "emoji": true
+                        },
+                        "value": "click_me_123",
+                        "action_id": "actionId-2"
+                    }
+                ]
+            }
+        ]
+    }`);
 
 });
-
-bot.message('hello', async ({ message, say }) => {
-    await say(`Ciao <@${message.user}> :wave:`);
-  });
 
 (async () => {
   // Start the app
