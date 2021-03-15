@@ -10,11 +10,13 @@ bot.command('/ferie',async ({ command, ack, say }) => {
 
     await ack();
 
-    console.log(command); 
-    
-    await say(`${command.text}, hai richiesto delle ferie`);
+    await say(`${command.text}, Hai richiesto delle ferie`);
 
-})
+});
+
+bot.message('hello', async ({ message, say }) => {
+    await say(`Ciao <@${message.user}> :wave:`);
+  });
 
 (async () => {
   // Start the app
