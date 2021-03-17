@@ -13,57 +13,55 @@ bot.command('/ferie', async ({ command, ack, say }) => {
     console.log(command);
 
     await say({
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "Seleziona il tuo primo giorno di ferie:"
-                },
-                "accessory": {
-                    "type": "datepicker",
-                    "initial_date": "1990-04-28",
-                    "placeholder": {
-                        "type": "plain_text",
-                        "text": "Select a date",
-                        "emoji": true
-                    },
-                    "action_id": "datepicker-action"
-                }
+        "blocks" : {
+            "title": {
+                "type": "plain_text",
+                "text": "Add info to feedback",
+                "emoji": true
             },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "Seleziona il tuo ultimo giorno di ferie"
-                },
-                "accessory": {
-                    "type": "datepicker",
-                    "initial_date": "1990-04-28",
-                    "placeholder": {
-                        "type": "plain_text",
-                        "text": "Select a date",
-                        "emoji": true
-                    },
-                    "action_id": "datepicker-action"
-                }
+            "submit": {
+                "type": "plain_text",
+                "text": "Save",
+                "emoji": true
             },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
+            "type": "modal",
+            "blocks": [
+                {
+                    "type": "input",
+                    "element": {
+                        "type": "datepicker",
+                        "placeholder": {
                             "type": "plain_text",
-                            "text": "Invia le ferie",
+                            "text": "Select a date",
                             "emoji": true
                         },
-                        "value": "click_me_123",
-                        "action_id": "actionId-2"
+                        "action_id": "datepicker-action"
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Label",
+                        "emoji": true
                     }
-                ]
-            }
-        ]
+                },
+                {
+                    "type": "input",
+                    "element": {
+                        "type": "datepicker",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select a date",
+                            "emoji": true
+                        },
+                        "action_id": "datepicker-action"
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Label",
+                        "emoji": true
+                    }
+                }
+            ]
+        }
     });
 
 });
