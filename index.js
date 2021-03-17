@@ -6,7 +6,7 @@ const bot = new App({
 });
 
 
-bot.command('/ferie',async ({ command, ack, say }) => {
+bot.command('/ferie', async ({ command, ack, say }) => {
 
     await ack();
 
@@ -15,33 +15,47 @@ bot.command('/ferie',async ({ command, ack, say }) => {
     await say({
         "blocks": [
             {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "Seleziona il tuo primo giorno di ferie:"
+                },
+                "accessory": {
+                    "type": "datepicker",
+                    "initial_date": "1990-04-28",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Select a date",
+                        "emoji": true
+                    },
+                    "action_id": "datepicker-action"
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "Seleziona il tuo ultimo giorno di ferie"
+                },
+                "accessory": {
+                    "type": "datepicker",
+                    "initial_date": "1990-04-28",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Select a date",
+                        "emoji": true
+                    },
+                    "action_id": "datepicker-action"
+                }
+            },
+            {
                 "type": "actions",
                 "elements": [
-                    {
-                        "type": "datepicker",
-                        "initial_date": "1990-04-28",
-                        "placeholder": {
-                            "type": "plain_text",
-                            "text": "Select a date",
-                            "emoji": true
-                        },
-                        "action_id": "actionId-0"
-                    },
-                    {
-                        "type": "datepicker",
-                        "initial_date": "1990-04-28",
-                        "placeholder": {
-                            "type": "plain_text",
-                            "text": "Select a date",
-                            "emoji": true
-                        },
-                        "action_id": "actionId-1"
-                    },
                     {
                         "type": "button",
                         "text": {
                             "type": "plain_text",
-                            "text": "Click Me",
+                            "text": "Invia le ferie",
                             "emoji": true
                         },
                         "value": "click_me_123",
