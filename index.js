@@ -9,7 +9,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
   try {
-    const result = await client.views.open({
+    await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
       trigger_id: body.trigger_id,
       // View payload
@@ -96,15 +96,15 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             },
           },
         ],
+        callback_id: "view_submission",
       },
     });
-    console.log(result);
   } catch (error) {
     console.error(error);
   }
 });
 
-bot.view("view_b", async ({ ack, body, view, client }) => {
+bot.view("view_submission", async ({ ack, body, view, client }) => {
   // Acknowledge the view_submission event
   await ack();
 
