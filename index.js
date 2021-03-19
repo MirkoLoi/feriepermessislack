@@ -122,7 +122,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   // // Message to send user
   let msg = `Ciao ${
     viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
-  }, ${capitalizeName(body.user.user_name)} vorebbe prendersi delle ferie da: ${
+  }, ${capitalizeName(body.user.username)} vorebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
   // // Save to DB
@@ -148,7 +148,6 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
 function capitalizeName(name) {
   let capitalName = name.split(".", 1)[0];
-  console.log(capitalName);
   capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
 
   return capitalName;
