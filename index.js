@@ -115,14 +115,13 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   // Assume there's an input block with `block_1` as the block_id and `input_a`
   // const val = view['state']['values']['block_1']['input_a'];
-  const user = body["user"]["id"];
 
   const viewBlock = view.state.values;
 
   // // Message to send user
-  let msg = `Ciao ${
-    viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
-  }, ${capitalizeName(body.user.username)} vorebbe prendersi delle ferie da: ${
+  let msg = `Ciao questo è un messagio di test, ${capitalizeName(
+    body.user.username
+  )} vorebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
   // // Save to DB
@@ -138,7 +137,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   // Message the user
   try {
     await client.chat.postMessage({
-      channel: user,
+      channel: viewBlock["holiday-pm"]["pm_select-action"].selected_users[0],
       text: msg,
     });
   } catch (error) {
