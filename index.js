@@ -90,7 +90,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
                 text: "Seleziona PM",
                 emoji: true,
               },
-              action_id: "multi_users_select-action",
+              action_id: "pm_select-action",
             },
             label: {
               type: "plain_text",
@@ -111,16 +111,20 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   // Acknowledge the view_submission event
   await ack();
 
-  console.log("view", view.state.values);
-
   // Do whatever you want with the input data - here we're saving it to a DB then sending the user a verifcation of their submission
 
   // Assume there's an input block with `block_1` as the block_id and `input_a`
   // const val = view['state']['values']['block_1']['input_a'];
   const user = body["user"]["id"];
 
+  const viewBlock = view.state.values;
+
   // // Message to send user
-  let msg = `Ciao ${view.state.values["holiday-pm"]}, ${body.user_name} vorebbe prendersi delle ferie da: ${view.state.values["holiday-date-init"]} a ${view.state.values["holiday-date-end"]}`;
+  let msg = `Ciao ${
+    viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
+  }, ${capitalizeName(body.user.user_name)} vorebbe prendersi delle ferie da: ${
+    viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
+  } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
   // // Save to DB
   // const results = await db.set(user.input, val);
 
