@@ -35,7 +35,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `Ciao *${capitalizeLetter(body.user_name)}* 😊🏖️`,
+              text: `Ciao *${capitalizeName(body.user_name)}* 😊🏖️`,
             },
           },
           {
@@ -43,6 +43,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
           },
           {
             type: "input",
+            block_id: "holiday-date-init",
             element: {
               type: "datepicker",
               placeholder: {
@@ -60,6 +61,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
           },
           {
             type: "input",
+            block_id: "holiday-date-end",
             element: {
               type: "datepicker",
               placeholder: {
@@ -80,6 +82,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
           },
           {
             type: "input",
+            block_id: "holiday-pm",
             element: {
               type: "multi_users_select",
               placeholder: {
@@ -108,9 +111,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   // Acknowledge the view_submission event
   await ack();
 
-  console.log("body", body);
-  console.log("view", view);
-  console.log("client", client);
+  console.log("view", view.state.values);
 
   // Do whatever you want with the input data - here we're saving it to a DB then sending the user a verifcation of their submission
 
@@ -119,7 +120,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   const user = body["user"]["id"];
 
   // // Message to send user
-  let msg = "Bravo";
+  let msg = `Ciao ${view.state.values["holiday-pm"]}, ${body.user_name} vorebbe prendersi delle ferie da: ${view.state.values["holiday-date-init"]} a ${view.state.values["holiday-date-end"]}`;
   // // Save to DB
   // const results = await db.set(user.input, val);
 
@@ -141,7 +142,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   }
 });
 
-function capitalizeLetter(name) {
+function capitalizeName(name) {
   let capitalName = name.split(".", 1)[0];
   console.log(capitalName);
   capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
