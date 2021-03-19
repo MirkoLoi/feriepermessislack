@@ -42,12 +42,8 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "divider",
           },
           {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "Inserisci la data del tuo primo giorno di ferie 😎",
-            },
-            accessory: {
+            type: "input",
+            element: {
               type: "datepicker",
               placeholder: {
                 type: "plain_text",
@@ -56,14 +52,15 @@ bot.command("/ferie", async ({ ack, body, client }) => {
               },
               action_id: "datepicker-action-init",
             },
+            label: {
+              type: "plain_text",
+              text: "Inserisci la data del tuo primo giorno di ferie 😎",
+              emoji: true,
+            },
           },
           {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "Inserisci la data del tuo ultimo giorno di ferie 🥲",
-            },
-            accessory: {
+            type: "input",
+            element: {
               type: "datepicker",
               placeholder: {
                 type: "plain_text",
@@ -72,21 +69,27 @@ bot.command("/ferie", async ({ ack, body, client }) => {
               },
               action_id: "datepicker-action-end",
             },
+            label: {
+              type: "plain_text",
+              text: "Inserisci la data del tuo ultimo giorno di ferie 🥲",
+              emoji: true,
+            },
           },
           {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "Inserisci il/i PM a cui richiedi le ferie 🤞",
-            },
-            accessory: {
-              type: "multi_conversations_select",
+            type: "input",
+            element: {
+              type: "multi_users_select",
               placeholder: {
                 type: "plain_text",
                 text: "Seleziona PM",
                 emoji: true,
               },
-              action_id: "multi_conversations_select-action",
+              action_id: "multi_users_select-action",
+            },
+            label: {
+              type: "plain_text",
+              text: "Inserisci il/i PM a cui richiedi le ferie 🤞",
+              emoji: true,
             },
           },
         ],
