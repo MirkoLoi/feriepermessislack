@@ -45,47 +45,45 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "Pick a date for the deadline.",
+              text: "Inserisci la data del tuo primo giorno di ferie 😎",
             },
             accessory: {
               type: "datepicker",
-              initial_date: "1990-04-28",
               placeholder: {
                 type: "plain_text",
-                text: "Select a date",
+                text: "Seleziona una data",
                 emoji: true,
               },
-              action_id: "datepicker-action",
+              action_id: "datepicker-action-init",
             },
           },
           {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "Pick a date for the deadline.",
+              text: "Inserisci la data del tuo ultimo giorno di ferie 🥲",
             },
             accessory: {
               type: "datepicker",
-              initial_date: "1990-04-28",
               placeholder: {
                 type: "plain_text",
-                text: "Select a date",
+                text: "Seleziona una data",
                 emoji: true,
               },
-              action_id: "datepicker-action",
+              action_id: "datepicker-action-end",
             },
           },
           {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "Test block with multi conversations select",
+              text: "Inserisci il/i PM a cui richiedi le ferie 🤞",
             },
             accessory: {
               type: "multi_conversations_select",
               placeholder: {
                 type: "plain_text",
-                text: "Select conversations",
+                text: "Seleziona PM",
                 emoji: true,
               },
               action_id: "multi_conversations_select-action",
