@@ -8,8 +8,6 @@ const bot = new App({
 bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
-  console.log("Io sono body", body);
-
   try {
     const result = await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
@@ -102,6 +100,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
 
 function capitalizeLetter(name) {
   let capitalName = name.split(".", 1);
+  console.log(capitalName);
   capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
 
   return capitalName;
