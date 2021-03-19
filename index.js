@@ -8,6 +8,9 @@ const bot = new App({
 bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
+  console.log("Io sono body", body);
+  console.log("Io sono client", client);
+
   try {
     const result = await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
@@ -17,7 +20,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
         type: "modal",
         title: {
           type: "plain_text",
-          text: "My App",
+          text: "Richiesta Ferie",
           emoji: true,
         },
         submit: {
