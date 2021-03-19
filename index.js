@@ -5,11 +5,11 @@ const bot = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-bot.command("/ferie", async ({ ack, body, client }) => {
+bot.command("/ferie", async ({ command, ack, body, client }) => {
   await ack();
 
   console.log("Io sono body", body);
-  console.log("Io sono client", client);
+  console.log("Io sono command", command);
 
   try {
     const result = await client.views.open({
