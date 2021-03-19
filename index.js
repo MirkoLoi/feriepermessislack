@@ -34,10 +34,12 @@ bot.command("/ferie", async ({ ack, body, client }) => {
           {
             type: "section",
             text: {
-              type: "plain_text",
-              text: `Ciao ${capitalizeLetter(body.user_name)}`,
-              emoji: true,
+              type: "mrkdwn",
+              text: `Ciao *${capitalizeLetter(body.user_name)}* 😊🏖️`,
             },
+          },
+          {
+            type: "divider",
           },
           {
             type: "section",
