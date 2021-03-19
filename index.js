@@ -30,59 +30,59 @@ bot.command("/ferie", async ({ ack, body, client }) => {
           text: "Cancel",
           emoji: true,
         },
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Pick a date for the deadline.",
+            },
+            accessory: {
+              type: "datepicker",
+              initial_date: "1990-04-28",
+              placeholder: {
+                type: "plain_text",
+                text: "Select a date",
+                emoji: true,
+              },
+              action_id: "datepicker-action",
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Pick a date for the deadline.",
+            },
+            accessory: {
+              type: "datepicker",
+              initial_date: "1990-04-28",
+              placeholder: {
+                type: "plain_text",
+                text: "Select a date",
+                emoji: true,
+              },
+              action_id: "datepicker-action",
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Test block with multi conversations select",
+            },
+            accessory: {
+              type: "multi_conversations_select",
+              placeholder: {
+                type: "plain_text",
+                text: "Select conversations",
+                emoji: true,
+              },
+              action_id: "multi_conversations_select-action",
+            },
+          },
+        ],
       },
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Pick a date for the deadline.",
-          },
-          accessory: {
-            type: "datepicker",
-            initial_date: "1990-04-28",
-            placeholder: {
-              type: "plain_text",
-              text: "Select a date",
-              emoji: true,
-            },
-            action_id: "datepicker-action",
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Pick a date for the deadline.",
-          },
-          accessory: {
-            type: "datepicker",
-            initial_date: "1990-04-28",
-            placeholder: {
-              type: "plain_text",
-              text: "Select a date",
-              emoji: true,
-            },
-            action_id: "datepicker-action",
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Test block with multi conversations select",
-          },
-          accessory: {
-            type: "multi_conversations_select",
-            placeholder: {
-              type: "plain_text",
-              text: "Select conversations",
-              emoji: true,
-            },
-            action_id: "multi_conversations_select-action",
-          },
-        },
-      ],
     });
     console.log(result);
   } catch (error) {
