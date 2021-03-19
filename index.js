@@ -99,7 +99,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
 });
 
 function capitalizeLetter(name) {
-  let capitalName = name.split(".", 1);
+  let capitalName = name.split(".", 1)[0];
   console.log(capitalName);
   capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
 
