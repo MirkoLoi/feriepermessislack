@@ -5,7 +5,7 @@ const bot = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-bot.command("/ferie", async ({ command, ack, client }) => {
+bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
   try {
