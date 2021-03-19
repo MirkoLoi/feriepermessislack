@@ -112,8 +112,6 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   console.log("view", view);
   console.log("client", client);
 
-  await client.views.close();
-
   // Do whatever you want with the input data - here we're saving it to a DB then sending the user a verifcation of their submission
 
   // Assume there's an input block with `block_1` as the block_id and `input_a`
