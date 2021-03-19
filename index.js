@@ -5,11 +5,10 @@ const bot = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-bot.command("/ferie", async ({ command, ack, body, client }) => {
+bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
   console.log("Io sono body", body);
-  console.log("Io sono command", command);
 
   try {
     const result = await client.views.open({
@@ -34,6 +33,14 @@ bot.command("/ferie", async ({ command, ack, body, client }) => {
           emoji: true,
         },
         blocks: [
+          {
+            type: "section",
+            text: {
+              type: "plain_text",
+              text: `Ciao ${capitalizeLetter(body.user_name)}`,
+              emoji: true,
+            },
+          },
           {
             type: "section",
             text: {
@@ -92,6 +99,13 @@ bot.command("/ferie", async ({ command, ack, body, client }) => {
     console.error(error);
   }
 });
+
+function capitalizeLetter(name) {
+  let capitalName = name.split(".", 1);
+  capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
+
+  return capitalName;
+}
 
 (async () => {
   // Start the app
