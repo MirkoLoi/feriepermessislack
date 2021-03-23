@@ -108,13 +108,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
 });
 
 bot.view("view_submission", async ({ ack, body, view, client }) => {
-  // Acknowledge the view_submission event
   await ack();
-
-  // Do whatever you want with the input data - here we're saving it to a DB then sending the user a verifcation of their submission
-
-  // Assume there's an input block with `block_1` as the block_id and `input_a`
-  // const val = view['state']['values']['block_1']['input_a'];
 
   const viewBlock = view.state.values;
 
@@ -124,17 +118,12 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   )} vorebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
-  // // Save to DB
-  // const results = await db.set(user.input, val);
 
-  // if (results) {
-  //   // DB save was successful
-  //   msg = 'Your submission was successful';
-  // } else {
-  //   msg = 'There was an error with your submission';
-  // }
+  const result = client.users_info(
+    viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
+  );
+  console.log(result);
 
-  // Message the user
   try {
     await client.chat.postMessage({
       channel: viewBlock["holiday-pm"]["pm_select-action"].selected_users[0],
