@@ -137,14 +137,14 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
             action_id: "this_is_an_action_id",
             options: [
               {
-                value: true,
+                value: "SI",
                 text: {
                   type: "plain_text",
                   text: "Accetta",
                 },
               },
               {
-                value: false,
+                value: "NO",
                 text: {
                   type: "plain_text",
                   text: "Rifiuta",
