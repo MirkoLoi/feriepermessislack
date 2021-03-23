@@ -132,29 +132,26 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
             type: "mrkdwn",
             text: msg,
           },
-        },
-        {
-          type: "divider",
-        },
-        {
-          type: "radio_buttons",
-          action_id: "this_is_an_action_id",
-          options: [
-            {
-              value: true,
-              text: {
-                type: "plain_text",
-                text: "Accetta",
+          accessory: {
+            type: "radio_buttons",
+            action_id: "this_is_an_action_id",
+            options: [
+              {
+                value: true,
+                text: {
+                  type: "plain_text",
+                  text: "Accetta",
+                },
               },
-            },
-            {
-              value: false,
-              text: {
-                type: "plain_text",
-                text: "Rifiuta",
+              {
+                value: false,
+                text: {
+                  type: "plain_text",
+                  text: "Rifiuta",
+                },
               },
-            },
-          ],
+            ],
+          },
         },
       ],
     });
