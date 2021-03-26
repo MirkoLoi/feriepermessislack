@@ -120,11 +120,11 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   );
 
   // // Message to send user
-  let msg = `Ciao ${capitalizeName(user.name)}, ${capitalizeName(
+  let msg = `Ciao *${capitalizeName(user.name)}*, *${capitalizeName(
     body.user.username
-  )} vorebbe prendersi delle ferie da: ${
+  )}* vorebbe prendersi delle ferie da: <!date^1392734382^{date_short}|${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
-  } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
+  }> a <!date^1392734382^{date_short}|${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`>;
 
   acceptRefuseHoliday(client, viewBlock, msg);
 });
