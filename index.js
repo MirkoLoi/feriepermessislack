@@ -112,20 +112,19 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   const viewBlock = view.state.values;
 
-  // // Message to send user
-  let msg = `Ciao questo è un messagio di test, ${capitalizeName(
-    body.user.username
-  )} vorebbe prendersi delle ferie da: ${
-    viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
-  } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
-
-  let result = await client.users.list();
-  result = result.members.find(
+  let user = await client.users.list();
+  user = result.members.find(
     (member) =>
       member.id ===
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
   );
-  console.log(result);
+
+  // // Message to send user
+  let msg = `Ciao ${user.real_name}, ${capitalizeName(
+    body.user.username
+  )} vorebbe prendersi delle ferie da: ${
+    viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
+  } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
   try {
     await client.chat.postMessage({
@@ -159,6 +158,9 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
           },
         },
       ],
+      attachments: {
+        text: "Ciaoooooooo",
+      },
     });
   } catch (error) {
     console.error(error);
