@@ -126,7 +126,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
-  acceptRefuseHoliday(client, viewBlock)
+  acceptRefuseHoliday(client, viewBlock, msg)
 });
 
 function capitalizeName(name) {
@@ -136,7 +136,7 @@ function capitalizeName(name) {
   return capitalName;
 }
 
-function acceptRefuseHoliday(client, valueBlock) {
+function acceptRefuseHoliday(client, valueBlock, message) {
   try {
     await client.chat.postMessage({
       channel: valueBlock["holiday-pm"]["pm_select-action"].selected_users[0],
@@ -145,7 +145,7 @@ function acceptRefuseHoliday(client, valueBlock) {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: msg,
+            text: message,
           },
           accessory: {
             type: "radio_buttons",
