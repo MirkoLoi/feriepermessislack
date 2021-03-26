@@ -120,15 +120,26 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   );
 
   // // Message to send user
-  let msg = `Ciao ${user.real_name}, ${capitalizeName(
+  let msg = `Ciao ${capitalizeName(user.name)}, ${capitalizeName(
     body.user.username
   )} vorebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
+  acceptRefuseHoliday(client, viewBlock)
+});
+
+function capitalizeName(name) {
+  let capitalName = name.split(".", 1)[0];
+  capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
+
+  return capitalName;
+}
+
+function acceptRefuseHoliday(client, valueBlock) {
   try {
     await client.chat.postMessage({
-      channel: viewBlock["holiday-pm"]["pm_select-action"].selected_users[0],
+      channel: valueBlock["holiday-pm"]["pm_select-action"].selected_users[0],
       blocks: [
         {
           type: "section",
@@ -165,13 +176,6 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   } catch (error) {
     console.error(error);
   }
-});
-
-function capitalizeName(name) {
-  let capitalName = name.split(".", 1)[0];
-  capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
-
-  return capitalName;
 }
 
 (async () => {
