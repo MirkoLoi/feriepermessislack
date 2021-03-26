@@ -124,7 +124,9 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
     body.user.username
   )}* vorebbe prendersi delle ferie da: <!date^1392734382^{date_short}|${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
-  }> a <!date^1392734382^{date_short}|${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`>;
+  }> a <!date^1392734382^{date_short}|${
+    viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date
+  }:`;
 
   acceptRefuseHoliday(client, viewBlock, msg);
 });
