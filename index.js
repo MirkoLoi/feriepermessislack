@@ -113,7 +113,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   const viewBlock = view.state.values;
 
   let user = await client.users.list();
-  user = result.members.find(
+  user = user.members.find(
     (member) =>
       member.id ===
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
