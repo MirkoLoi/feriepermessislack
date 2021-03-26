@@ -119,8 +119,8 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
-  const result = client.users.list();
-  console.log(result);
+  const result = client.users_list();
+  console.log(result, result["members"]);
 
   try {
     await client.chat.postMessage({
