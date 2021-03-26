@@ -122,9 +122,9 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   // // Message to send user
   let msg = `Ciao *${capitalizeName(user.name)}*, *${capitalizeName(
     body.user.username
-  )}* vorebbe prendersi delle ferie da: <{date_short}|${
+  )}* vorebbe prendersi delle ferie da: <1392734382^{date_short}|${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
-  }> a <{date_short}|${
+  }> a <1392734382^{date_short}|${
     viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date
   }>`;
 
