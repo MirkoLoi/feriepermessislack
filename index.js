@@ -119,13 +119,12 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
-  const result = await client.users
-    .list()
-    .members.find(
-      (member) =>
-        member.id ===
-        viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
-    );
+  let result = await client.users.list();
+  result = result.members.find(
+    (member) =>
+      member.id ===
+      viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
+  );
   console.log(result);
 
   try {
