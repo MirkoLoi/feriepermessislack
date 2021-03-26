@@ -136,7 +136,7 @@ function capitalizeName(name) {
   return capitalName;
 }
 
-function acceptRefuseHoliday(client, valueBlock, message) {
+async function acceptRefuseHoliday(client, valueBlock, message) {
   try {
     await client.chat.postMessage({
       channel: valueBlock["holiday-pm"]["pm_select-action"].selected_users[0],
