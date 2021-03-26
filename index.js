@@ -112,12 +112,12 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   const viewBlock = view.state.values;
 
-  // let user = await client.users.list();
-  // user = user.members.find(
-  //   (member) =>
-  //     member.id ===
-  //     viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
-  // );
+  let user = await client.users.list();
+  user = user.members.find(
+    (member) =>
+      member.id ===
+      viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
+  );
 
   // // Message to send user
   let msg = `Ciao ${capitalizeName(user.name)}, ${capitalizeName(
@@ -126,7 +126,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
-  //acceptRefuseHoliday(client, viewBlock, msg)
+  acceptRefuseHoliday(client, viewBlock, msg);
 });
 
 function capitalizeName(name) {
