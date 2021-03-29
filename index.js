@@ -129,13 +129,10 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   acceptRefuseHoliday(client, viewBlock, msg);
 });
 
-bot.action("accept_refuse", async ({ ack, body, client }) => {
+bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
-  console.log(
-    body.message.blocks.accessory.options,
-    body.actions[0].selected_option
-  );
+  console.log(payload);
 });
 
 function capitalizeName(name) {
@@ -161,10 +158,7 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
             action_id: "accept_refuse",
             options: [
               {
-                value: {
-                  prova: "Sei proprio intelligente",
-                  test: ["Prova"],
-                },
+                value: "SI",
                 text: {
                   type: "plain_text",
                   text: "Accetta",
