@@ -122,7 +122,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   // // Message to send user
   let msg = `Ciao *${capitalizeName(user.name)}*, *${capitalizeName(
     body.user.username
-  )}* vorebbe prendersi delle ferie da: ${
+  )}* vorrebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
@@ -132,7 +132,10 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 bot.action("accept_refuse", async ({ ack, body, client }) => {
   await ack();
 
-  console.log(body.message.blocks, body.actions[0].selected_option);
+  console.log(
+    body.message.blocks.accessory.options,
+    body.actions[0].selected_option
+  );
 });
 
 function capitalizeName(name) {
@@ -158,7 +161,10 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
             action_id: "accept_refuse",
             options: [
               {
-                value: "SI",
+                value: {
+                  prova: "Sei proprio intelligente",
+                  test: ["Prova"],
+                },
                 text: {
                   type: "plain_text",
                   text: "Accetta",
