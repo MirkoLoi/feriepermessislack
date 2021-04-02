@@ -35,7 +35,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `Ciao *${capitalizeName(body.user_name)}* 😊🏖️`,
+              text: `Ciao *${capitalize(body.user_name)}* 😊🏖️`,
             },
           },
           {
@@ -119,10 +119,13 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
   );
 
+  console.log(body);
+
   // // Message to send user
-  let msg = `Ciao *${capitalizeName(user.name)}*, *${capitalizeName(
-    body.user.username
-  )}* vorrebbe prendersi delle ferie da: ${
+  let msg = `Ciao *${capitalize(user.name)}*, *${capitalize(
+    body.user.username,
+    1
+  )} ${capitalize(body.user.username, 2)}* vorrebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
@@ -135,11 +138,11 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   console.log(JSON.parse(payload.selected_option.value));
 });
 
-function capitalizeName(name) {
-  let capitalName = name.split(".", 1)[0];
-  capitalName = capitalName.charAt(0).toUpperCase() + capitalName.slice(1);
+function capitalize(name, index) {
+  let capital = name.split(".", 1)[index];
+  capital = capital.charAt(0).toUpperCase() + capitalName.slice(1);
 
-  return capitalName;
+  return capital;
 }
 
 async function acceptRefuseHoliday(client, valueBlock, message) {
@@ -159,8 +162,10 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
             options: [
               {
                 value: `{ 
-                  "response": "SI",
-                  "PMs": "[${valueBlock["holiday-pm"]["pm_select-action"].selected_users}]"
+                  "response": "si",
+                  "start_date": "${viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date}",
+                  "end_date": "${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}",
+                  "pms": [${valueBlock["holiday-pm"]["pm_select-action"].selected_users}]
                 }`,
                 text: {
                   type: "plain_text",
@@ -168,7 +173,7 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
                 },
               },
               {
-                value: "NO",
+                value: `{"response": "no",}`,
                 text: {
                   type: "plain_text",
                   text: "Rifiuta",
