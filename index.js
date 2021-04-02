@@ -132,7 +132,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
-  console.log(payload);
+  console.log(JSON.pase(payload.value.jspm));
 });
 
 function capitalizeName(name) {
@@ -159,8 +159,8 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
             options: [
               {
                 value: `{ 
-                  response: 'SI',
-                  PMs: '${valueBlock["holiday-pm"]["pm_select-action"].selected_users}'
+                  "response": "SI",
+                  "PMs": "[${valueBlock["holiday-pm"]["pm_select-action"].selected_users}]"
                 }`,
                 text: {
                   type: "plain_text",
