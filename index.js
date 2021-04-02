@@ -35,7 +35,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `Ciao *${capitalize(body.user_name, 0)}* 😊🏖️`,
+              text: `Ciao *${capitalize(body.user_name)}* 😊🏖️`,
             },
           },
           {
@@ -123,8 +123,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   // // Message to send user
   let msg = `Ciao *${capitalize(user.name)}*, *${capitalize(
-    body.user.username,
-    0
+    body.user.username
   )}* vorrebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
@@ -138,8 +137,8 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   console.log(JSON.parse(payload.selected_option.value));
 });
 
-function capitalize(name, index) {
-  let capital = name.split(".", 1)[index];
+function capitalize(name) {
+  let capital = name.split(".", 1)[0];
   capital = capital.charAt(0).toUpperCase() + capital.slice(1);
 
   return capital;
