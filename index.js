@@ -35,7 +35,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `Ciao *${capitalize(body.user_name)}* 😊🏖️`,
+              text: `Ciao *${capitalize(body.user_name, 0)}* 😊🏖️`,
             },
           },
           {
