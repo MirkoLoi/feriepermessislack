@@ -132,7 +132,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
-  console.log(JSON.pase(payload.value.jspm));
+  console.log(JSON.pase(payload.value));
 });
 
 function capitalizeName(name) {
