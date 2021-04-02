@@ -119,7 +119,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
   );
 
-  console.log(viewBlock);
+  console.log(viewBlock, view.state);
 
   // // Message to send user
   let msg = `Ciao *${capitalize(user.name)}*, *${capitalize(
@@ -162,8 +162,8 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
               {
                 value: `{ 
                   "response": "si",
-                  "start_date": "${viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date}",
-                  "end_date": "${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}",
+                  "start_date": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}",
+                  "end_date": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}",
                   "pms": [${valueBlock["holiday-pm"]["pm_select-action"].selected_users}]
                 }`,
                 text: {
