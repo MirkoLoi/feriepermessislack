@@ -140,7 +140,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
 function capitalize(name, index) {
   let capital = name.split(".", 1)[index];
-  capital = capital.charAt(0).toUpperCase() + capitalName.slice(1);
+  capital = capital.charAt(0).toUpperCase() + capital.slice(1);
 
   return capital;
 }
