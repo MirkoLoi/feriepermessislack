@@ -119,8 +119,6 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
   );
 
-  console.log(viewBlock, view.state);
-
   // // Message to send user
   let msg = `Ciao *${capitalize(user.name)}*, *${capitalize(
     body.user.username
