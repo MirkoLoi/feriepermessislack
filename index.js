@@ -158,7 +158,10 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
             action_id: "accept_refuse",
             options: [
               {
-                value: "SI",
+                value: `{ 
+                  response: 'SI',
+                  PMs: '${valueBlock["holiday-pm"]["pm_select-action"].selected_users}'
+                }`,
                 text: {
                   type: "plain_text",
                   text: "Accetta",
@@ -175,9 +178,6 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
           },
         },
       ],
-      attachments: {
-        text: "Ciaoooooooo",
-      },
     });
   } catch (error) {
     console.error(error);
