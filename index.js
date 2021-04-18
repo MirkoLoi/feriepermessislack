@@ -131,6 +131,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   try {
     await client.chat.update({
+      channel: viewBlock["holiday-pm"]["pm_select-action"].selected_users[0],
       blocks: [
         {
           type: "section",
