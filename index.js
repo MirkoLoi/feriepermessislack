@@ -128,11 +128,15 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
   acceptRefuseHoliday(client, viewBlock, msg);
+});
+
+bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
+  await ack();
 
   try {
     await client.chat.update({
-      ts: view.hash,
-      channel: viewBlock["holiday-pm"]["pm_select-action"].selected_users[0],
+      ts: payload.action_ts,
+      channel: payload.channel.id,
       blocks: [
         {
           type: "section",
@@ -146,10 +150,6 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   } catch (error) {
     console.error(error);
   }
-});
-
-bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
-  await ack();
 
   console.log(JSON.parse(payload.selected_option.value));
 });
