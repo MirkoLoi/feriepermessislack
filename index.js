@@ -113,20 +113,36 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   const viewBlock = view.state.values;
 
   let user = await client.users.list();
-  user = user.members.find(
+  const pmUser = user.members.find(
     (member) =>
       member.id ===
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
   );
+  const userClient = user.members.find((member) => member.id === body.user.id);
+
+  console.log(pmUser, userClient);
 
   // // Message to send user
-  let msg = `Ciao *${capitalize(user.name)}*, *${capitalize(
+  let msg = `Ciao *${capitalize(pmUser.name)}*, *${capitalize(
     body.user.username
   )}* vorrebbe prendersi delle ferie da: ${
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
   acceptRefuseHoliday(client, viewBlock, msg);
+
+  await client.chat.update({
+    channel: valueBlock["holiday-pm"]["pm_select-action"].selected_users[0],
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Ho registrato la tua risposta. Grazie",
+        },
+      },
+    ],
+  });
 });
 
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
