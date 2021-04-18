@@ -133,12 +133,10 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
-  console.log(body, client);
-
   try {
     await client.chat.update({
-      ts: payload.action_ts,
-      channel: payload.channel.id,
+      ts: body.action_ts,
+      channel: body.channel.id,
       blocks: [
         {
           type: "section",
