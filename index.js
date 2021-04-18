@@ -129,10 +129,9 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   acceptRefuseHoliday(client, viewBlock, msg);
 
-  console.log(view);
-
   try {
     await client.chat.update({
+      ts: view.hash,
       channel: viewBlock["holiday-pm"]["pm_select-action"].selected_users[0],
       blocks: [
         {
