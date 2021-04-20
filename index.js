@@ -138,7 +138,15 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
       channel: body.channel.id,
       ts: body.actions[0].action_ts,
       text: "updated",
-      ...body.message,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "Per favore",
+          },
+        },
+      ],
     });
   } catch (error) {
     console.error(error);
