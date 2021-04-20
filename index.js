@@ -136,8 +136,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   console.log(payload);
 
   try {
-    const container = JSON.parse(body);
-    const originalMessage = container.message;
+    const originalMessage = body.message;
 
     originalMessage.channel = body.channel.id;
     originalMessage.attachments[0].footer = `Grazie per la risposta.`;
