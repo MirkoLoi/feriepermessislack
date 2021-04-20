@@ -134,11 +134,13 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
   try {
-    await client.chat.update({
-      channel: body.channel.id,
-      ts: body.actions[0].action_ts,
-      text: "Grazie!",
-    });
+    const body = JSON.parse(body.payload);
+    const originalMessage = body.message;
+
+    originalMessage.channel = body.channel.id;
+    originalMessage.attachments[0].footer = `Grazie per la risposta.`;
+
+    await client.chat.update(originalMessage);
   } catch (error) {
     console.error(error);
   }
