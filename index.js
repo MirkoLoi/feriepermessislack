@@ -136,16 +136,19 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   try {
     await client.chat.update({
       channel: body.channel.id,
-      ts: body.actions[0].action_ts,
-      text: "updated",
-      ...body.message,
+      ts: body.message.ts,
       blocks: [
         {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: "Per favore",
+            text: "Grazie, ho registrato la risposta!",
           },
+        },
+      ],
+      attachments: [
+        {
+          actions: [],
         },
       ],
     });
