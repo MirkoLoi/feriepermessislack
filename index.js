@@ -110,8 +110,6 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   const viewBlock = view.state.values;
 
-  console.log(view);
-
   let user = await client.users.list();
   const pmUser = user.members.find(
     (member) =>
@@ -126,7 +124,7 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
     viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
   } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
 
-  acceptRefuseHoliday(client, viewBlock, msg);
+  acceptRefuseHoliday(client, viewBlock, msg, userClient);
 });
 
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
@@ -146,7 +144,7 @@ function capitalize(name) {
   return capital;
 }
 
-async function acceptRefuseHoliday(client, valueBlock, message) {
+async function acceptRefuseHoliday(client, valueBlock, message, user) {
   try {
     await client.chat.postMessage({
       channel: valueBlock["holiday-pm"]["pm_select-action"].selected_users[0],
@@ -163,7 +161,7 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
             options: [
               {
                 value: `{ 
-                  "response": "si", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}, "user": "${userClient}"
+                  "response": "si", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}, "user": "${user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -172,7 +170,7 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
               },
               {
                 value: `{ 
-                  "response": "no", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}"
+                  "response": "no", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}", "user": "${user.id}"
                 }`,
                 text: {
                   type: "plain_text",
