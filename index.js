@@ -137,15 +137,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
     await client.chat.update({
       channel: body.channel.id,
       ts: body.actions[0].action_ts,
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Ho registrato la tua risposta. Grazie",
-          },
-        },
-      ],
+      text: "Grazie!",
     });
   } catch (error) {
     console.error(error);
