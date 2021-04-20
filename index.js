@@ -138,6 +138,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
       channel: body.channel.id,
       ts: body.actions[0].action_ts,
       text: "updated",
+      ...body.message,
       blocks: [
         {
           type: "section",
@@ -187,7 +188,9 @@ async function acceptRefuseHoliday(client, valueBlock, message) {
                 },
               },
               {
-                value: `{"response": "no",}`,
+                value: `{ 
+                  "response": "no", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}"
+                }`,
                 text: {
                   type: "plain_text",
                   text: "Rifiuta",
