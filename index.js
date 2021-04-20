@@ -161,7 +161,7 @@ async function acceptRefuseHoliday(client, valueBlock, message, user) {
             options: [
               {
                 value: `{ 
-                  "response": "si", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}, "user": "${user.id}"
+                  "response": "si", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}", "user": "${user.id}"
                 }`,
                 text: {
                   type: "plain_text",
