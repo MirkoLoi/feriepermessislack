@@ -139,7 +139,8 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
     const originalMessage = body.message;
 
     originalMessage.channel = body.channel.id;
-    originalMessage.text = `Grazie per la risposta.`;
+    originalMessage.attachments = [{ footer: "" }];
+    originalMessage.attachments[0].footer = `Grazie per la risposta.`;
 
     await client.chat.update(originalMessage);
   } catch (error) {
