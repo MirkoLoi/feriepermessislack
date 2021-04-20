@@ -137,8 +137,14 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
     await client.chat.update({
       channel: body.channel.id,
       ts: body.actions[0].action_ts,
-      attachments: [],
-      text: "Grazie!",
+      text: "updated",
+      message: {
+        text: "updated",
+        username: "Slack API Tester",
+        bot_id: "B4X35D333",
+        type: "message",
+        subtype: "bot_message",
+      },
     });
   } catch (error) {
     console.error(error);
