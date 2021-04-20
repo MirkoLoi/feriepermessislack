@@ -133,9 +133,11 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
+  console.log(payload);
+
   try {
-    const body = JSON.parse(body.payload);
-    const originalMessage = body.message;
+    const container = JSON.parse(body.payload);
+    const originalMessage = container.message;
 
     originalMessage.channel = body.channel.id;
     originalMessage.attachments[0].footer = `Grazie per la risposta.`;
