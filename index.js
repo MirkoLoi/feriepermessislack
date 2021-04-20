@@ -133,16 +133,13 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
-  console.log(payload);
+  const conatainer = body;
+  conatainer.ts = body.actions[0].action_ts;
+  conatainer.actions = [];
+  conatainer.text = "Grazie!";
 
   try {
-    const originalMessage = body.message;
-
-    originalMessage.channel = body.channel.id;
-    originalMessage.attachments = [{ footer: "" }];
-    originalMessage.attachments[0].footer = `Grazie per la risposta.`;
-
-    await client.chat.update(originalMessage);
+    await client.chat.update(conatainer);
   } catch (error) {
     console.error(error);
   }
