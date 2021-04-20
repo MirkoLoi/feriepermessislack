@@ -135,7 +135,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   try {
     await client.chat.update({
-      ts: body.action_ts,
+      ts: body.message_ts,
       channel: body.channel.id,
       blocks: [
         {
