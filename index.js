@@ -103,8 +103,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `*PS:* _Se stai lavorando in consulenza non dimeticarti di 
-              consultare il tuo referente esterno, prima di richeidere le ferie_`,
+              text: `*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere le ferie_`,
             },
           },
         ],
