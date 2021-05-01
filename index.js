@@ -145,20 +145,28 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
-  if (selectedOption.response === "si") {
-    await client.chat.postMessage({
-      channel: selectedOption.user,
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Le tue ferie sono state accettate. Vamos!🏆",
-          },
+  let user = await client.users.list();
+  const pmUser = user.members.find((member) => member.id === body.channel.id);
+
+  console.log(body, pmUser);
+
+  const acceptMessage = "Le tue ferie sono state accettate. Vamos!🏆";
+  const refuseMessage =
+    "Le tue ferie sono state rifiutate. Per favore contatta ";
+
+  await client.chat.postMessage({
+    channel: selectedOption.user,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            selectedOption.response === "si" ? acceptMessage : refuseMessage,
         },
-      ],
-    });
-  }
+      },
+    ],
+  });
 });
 
 function capitalize(name) {
