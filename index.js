@@ -96,6 +96,16 @@ bot.command("/ferie", async ({ ack, body, client }) => {
               emoji: true,
             },
           },
+          {
+            type: "divider",
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `_PS: Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere le ferie`,
+            },
+          },
         ],
         callback_id: "view_submission",
       },
