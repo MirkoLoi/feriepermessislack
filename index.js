@@ -103,7 +103,8 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere le ferie_`,
+              text:
+                "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere le ferie_ ✌️",
             },
           },
         ],
@@ -142,9 +143,22 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   updateChat(client, body);
 
-  const response = JSON.parse(payload.selected_option.value);
+  const selectedOption = JSON.parse(payload.selected_option.value);
 
-  console.log(response);
+  if (selectedOption.response === "si") {
+    await client.chat.postMessage({
+      channel: selectedOption.user,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "Le tue ferie sono state accettate. Vamos!🏆",
+          },
+        },
+      ],
+    });
+  }
 });
 
 function capitalize(name) {
