@@ -145,7 +145,9 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
-  const pms = selectedOption.pms.shift();
+  console.log(selectedOption);
+
+  const pms = Array(selectedOption.pms.shift());
 
   console.log(pms, pms.length);
 
