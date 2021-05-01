@@ -145,9 +145,11 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
-  selectedOption.pms.shift();
+  console.log(selectedOption);
 
-  if (selectedOption.pms.length) {
+  Array(selectedOption.pms).shift();
+
+  if (Array(selectedOption.pms).length) {
     console.log("Ancora elementi");
   } else {
     console.log("finito");
