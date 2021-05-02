@@ -150,10 +150,8 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
-  const pms = selectedOption.pms.split(",");
+  const pms = selectedOption.pms.split(",").shift();
   const user = await client.users.list();
-
-  pms.shift();
 
   if (pms.length) {
     const holidayuser = user.members.find(
@@ -249,7 +247,10 @@ async function updateChat(client, body) {
 }
 
 async function notifyResponse(client, pmUser, selectedOption) {
-  const acceptMessage = `Le tue ferie sono state accettate da *${pmUser.real_name}*🥳🏆`;
+  const acceptMessage =
+    selectedOption.pms.split(",").length > 1
+      ? `Le tue ferie sono state accettate da *${pmUser.real_name}*🥳🏆`
+      : `Le tue ferie sono state accettate da *tutti i PM*🥳🏆`;
   const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
 
   await client.chat.postMessage({
