@@ -120,22 +120,27 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
   await ack();
 
   const viewBlock = view.state.values;
+  const user = await client.users.list();
 
-  let user = await client.users.list();
+  const userClient = user.members.find((member) => member.id === body.user.id);
+
   const pmUser = user.members.find(
     (member) =>
       member.id ===
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
   );
-  const userClient = user.members.find((member) => member.id === body.user.id);
 
-  let msg = `Ciao *${capitalize(pmUser.name)}*, *${
-    userClient.real_name
-  }* vorrebbe prendersi delle ferie da: ${
-    viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date
-  } a ${viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date}`;
+  const userInfo = {
+    selectedPms: viewBlock["holiday-pm"]["pm_select-action"].selected_users,
+    currentPm: pmUser,
+    user: userClient,
+    startDate:
+      viewBlock["holiday-date-init"]["datepicker-action-init"].selected_date,
+    endDate:
+      viewBlock["holiday-date-end"]["datepicker-action-end"].selected_date,
+  };
 
-  acceptRefuseHoliday(client, viewBlock, msg, userClient);
+  acceptRefuseHoliday(client, userInfo);
 });
 
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
@@ -151,52 +156,31 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   pms.shift();
 
-  console.log(pms, pms.length);
-
   if (pms.length) {
     console.log("Ancora elementi");
   } else {
-    console.log("finito");
+    let user = await client.users.list();
+    const pmUser = user.members.find((member) => member.id === body.user.id);
+    this.notifayResponse(pmUser, selectedOption);
   }
-
-  let user = await client.users.list();
-  const pmUser = user.members.find((member) => member.id === body.user.id);
-
-  const acceptMessage = `Le tue ferie sono state accettate da *${pmUser.real_name}*🥳🏆`;
-  const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
-
-  await client.chat.postMessage({
-    channel: selectedOption.user,
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text:
-            selectedOption.response === "si" ? acceptMessage : refuseMessage,
-        },
-      },
-    ],
-  });
 });
 
-function capitalize(name) {
-  let capital = name.split(".", 1)[0];
-  capital = capital.charAt(0).toUpperCase() + capital.slice(1);
+async function acceptRefuseHoliday(client, userInfo) {
+  const msg = `Ciao *${capitalize(userInfo.currentPm.name)}*, *${
+    userInfo.user.real_name
+  }* vorrebbe prendersi delle ferie da: ${userInfo.startDate} a ${
+    userInfo.endDate
+  }`;
 
-  return capital;
-}
-
-async function acceptRefuseHoliday(client, valueBlock, message, user) {
   try {
     await client.chat.postMessage({
-      channel: valueBlock["holiday-pm"]["pm_select-action"].selected_users[0],
+      channel: userInfo.currentPm,
       blocks: [
         {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: message,
+            text: msg,
           },
           accessory: {
             type: "radio_buttons",
@@ -204,7 +188,7 @@ async function acceptRefuseHoliday(client, valueBlock, message, user) {
             options: [
               {
                 value: `{ 
-                  "response": "si", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}", "user": "${user.id}"
+                  "response": true, "sd": "${userInfo.startDate}", "ed": "${userInfo.endDate}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -213,7 +197,7 @@ async function acceptRefuseHoliday(client, valueBlock, message, user) {
               },
               {
                 value: `{ 
-                  "response": "no", "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}", "user": "${user.id}"
+                  "response": false, "sd": "${valueBlock["holiday-date-init"]["datepicker-action-init"].selected_date}", "ed": "${valueBlock["holiday-date-end"]["datepicker-action-end"].selected_date}", "pms": "${valueBlock["holiday-pm"]["pm_select-action"].selected_users}", "user": "${user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -253,6 +237,32 @@ async function updateChat(client, body) {
   } catch (error) {
     console.error(error);
   }
+}
+
+async function notifayResponse(pmUser, selectedOption) {
+  const acceptMessage = `Le tue ferie sono state accettate da *${pmUser.real_name}*🥳🏆`;
+  const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
+
+  await client.chat.postMessage({
+    channel: selectedOption.user,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            selectedOption.response === "si" ? acceptMessage : refuseMessage,
+        },
+      },
+    ],
+  });
+}
+
+function capitalize(name) {
+  let capital = name.split(".", 1)[0];
+  capital = capital.charAt(0).toUpperCase() + capital.slice(1);
+
+  return capital;
 }
 
 (async () => {
