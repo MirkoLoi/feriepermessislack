@@ -149,6 +149,8 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const pms = selectedOption.pms.split(",");
 
+  pms.shift();
+
   console.log(pms, pms.length);
 
   if (pms.length) {
