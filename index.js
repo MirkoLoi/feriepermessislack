@@ -261,7 +261,7 @@ async function notifyResponse(client, pmUser, selectedOption) {
         text: {
           type: "mrkdwn",
           text:
-            selectedOption.response === "si" ? acceptMessage : refuseMessage,
+            selectedOption.response === true ? acceptMessage : refuseMessage,
         },
       },
     ],
