@@ -247,6 +247,7 @@ async function updateChat(client, body) {
 }
 
 async function notifyResponse(client, pmUser, selectedOption) {
+  console.log(selectedOption);
   const acceptMessage =
     selectedOption.pms.split(",").length > 1
       ? `Le tue ferie sono state accettate da *${pmUser.real_name}*🥳🏆`
