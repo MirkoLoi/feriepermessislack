@@ -174,7 +174,7 @@ async function acceptRefuseHoliday(client, userInfo) {
 
   try {
     await client.chat.postMessage({
-      channel: userInfo.currentPm,
+      channel: userInfo.currentPm.id,
       blocks: [
         {
           type: "section",
