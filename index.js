@@ -161,7 +161,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   } else {
     let user = await client.users.list();
     const pmUser = user.members.find((member) => member.id === body.user.id);
-    this.notifayResponse(pmUser, selectedOption);
+    notifyResponse(pmUser, selectedOption);
   }
 });
 
@@ -239,7 +239,7 @@ async function updateChat(client, body) {
   }
 }
 
-async function notifayResponse(pmUser, selectedOption) {
+async function notifyResponse(pmUser, selectedOption) {
   const acceptMessage = `Le tue ferie sono state accettate da *${pmUser.real_name}*🥳🏆`;
   const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
 
