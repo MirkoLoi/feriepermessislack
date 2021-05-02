@@ -173,6 +173,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 });
 
 async function acceptRefuseHoliday(client, userInfo) {
+  console.log(userInfo);
   const msg = `Ciao *${capitalize(userInfo.currentPm.name)}*, *${
     userInfo.user.real_name
   }* vorrebbe prendersi delle ferie da: ${userInfo.startDate} a ${
