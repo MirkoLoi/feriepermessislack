@@ -229,6 +229,8 @@ async function updateChat(client, body) {
     (member) => member.id === selectedOption.user
   );
 
+  console.log(holidayuser);
+
   const message = `Grazie, ho registrato la risposta! Hai ${
     selectedOption.response ? "accettato" : "rifiutato"
   } le ferie di ${holidayuser.user.real_name} dal ${selectedOption.sd} al ${
