@@ -223,7 +223,7 @@ async function acceptRefuseHoliday(client, userInfo) {
 }
 
 async function updateChat(client, body) {
-  console.log("body", body.actions[0].selected_option);
+  console.log("body", body.actions[0]);
   try {
     await client.chat.update({
       channel: body.channel.id,
