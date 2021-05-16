@@ -223,7 +223,7 @@ async function acceptRefuseHoliday(client, userInfo) {
 }
 
 async function updateChat(client, body) {
-  const selectedOption = JSON.parse(payload.selected_option.value);
+  const selectedOption = JSON.parse(body.actions[0].selected_option.value);
   const users = await client.users.list();
   const holidayuser = users.members.find(
     (member) => member.id === selectedOption.user
