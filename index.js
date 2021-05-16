@@ -103,8 +103,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text:
-                "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere le ferie_ ✌️",
+              text: "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere le ferie_ ✌️",
             },
           },
         ],
@@ -224,6 +223,7 @@ async function acceptRefuseHoliday(client, userInfo) {
 }
 
 async function updateChat(client, body) {
+  console.log("body", body);
   try {
     await client.chat.update({
       channel: body.channel.id,
@@ -249,7 +249,6 @@ async function updateChat(client, body) {
 }
 
 async function notifyResponse(client, pmUser, selectedOption) {
-  console.log(selectedOption);
   const acceptMessage = `Le tue ferie sono state accettate. 🥳🏆`;
   const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
 
