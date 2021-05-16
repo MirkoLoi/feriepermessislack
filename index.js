@@ -150,12 +150,12 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   const selectedOption = JSON.parse(payload.selected_option.value);
 
   const pms = selectedOption.pms.split(",");
-  const user = await client.users.list();
+  const users = await client.users.list();
 
   pms.shift();
 
   if (pms.length) {
-    const holidayuser = user.members.find(
+    const holidayuser = users.members.find(
       (member) => member.id === selectedOption.user
     );
     const userInfo = {
@@ -167,7 +167,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
     };
     acceptRefuseHoliday(client, userInfo);
   } else {
-    const pmUser = user.members.find((member) => member.id === body.user.id);
+    const pmUser = users.members.find((member) => member.id === body.user.id);
 
     notifyResponse(client, pmUser, selectedOption);
   }
@@ -223,7 +223,18 @@ async function acceptRefuseHoliday(client, userInfo) {
 }
 
 async function updateChat(client, body) {
-  console.log("body", body.actions[0]);
+  const selectedOption = JSON.parse(payload.selected_option.value);
+  const users = await client.users.list();
+  const holidayuser = users.members.find(
+    (member) => member.id === selectedOption.user
+  );
+
+  const message = `Grazie, ho registrato la risposta! Hai ${
+    selectedOption.response ? "accettato" : "rifiutato"
+  } le ferie di ${holidayuser.user.real_name} dal ${selectedOption.sd} al ${
+    selectedOption.ed
+  }`;
+
   try {
     await client.chat.update({
       channel: body.channel.id,
@@ -233,7 +244,7 @@ async function updateChat(client, body) {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: "Grazie, ho registrato la risposta!",
+            text: message,
           },
         },
       ],
