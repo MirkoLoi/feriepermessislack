@@ -398,6 +398,11 @@ function createCalendarEvent() {
       }
     );
   }
+
+  module.exports = {
+    SCOPES,
+    listEvents,
+  };
 }
 
 (async () => {
@@ -407,8 +412,3 @@ function createCalendarEvent() {
 
   console.log("⚡️ Bolt app is running!");
 })();
-
-module.exports = {
-  SCOPES,
-  listEvents,
-};
