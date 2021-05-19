@@ -152,13 +152,14 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
+  console.log("PMS CORRENTI", selectedOption.pms);
   const pms = selectedOption.pms.split(",");
-  console.log(pms);
+  console.log("PMS SPLIT", pms);
   const users = await client.users.list();
 
   pms.shift();
 
-  console.log(pms, pms.length);
+  console.log("PMS SHIFT", pms, "PMS LENGTH", pms.length);
   if (pms.length) {
     const holidayuser = users.members.find(
       (member) => member.id === selectedOption.user
