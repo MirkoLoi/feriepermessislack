@@ -168,6 +168,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
       startDate: selectedOption.sd,
       endDate: selectedOption.ed,
     };
+    console.log(userInfo);
     acceptRefuseHoliday(client, userInfo);
   } else {
     const pmUser = users.members.find((member) => member.id === body.user.id);
