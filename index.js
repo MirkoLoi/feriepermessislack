@@ -166,7 +166,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
     );
     const currentPm = users.members.find((member) => member.id === pms[0]);
     const userInfo = {
-      selectedPms: selectedOption.pms,
+      selectedPms: pms,
       currentPm: currentPm,
       user: holidayuser,
       startDate: selectedOption.sd,
