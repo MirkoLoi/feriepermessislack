@@ -161,9 +161,10 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
     const holidayuser = users.members.find(
       (member) => member.id === selectedOption.user
     );
+    const currentPm = users.members.find((member) => member.id === pms[0].user);
     const userInfo = {
       selectedPms: selectedOption.pms,
-      currentPm: pms[0],
+      currentPm: currentPm,
       user: holidayuser,
       startDate: selectedOption.sd,
       endDate: selectedOption.ed,
@@ -178,11 +179,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 });
 
 async function acceptRefuseHoliday(client, userInfo) {
-  const msg = `Ciao *${capitalize(userInfo.currentPm.name)}*, *${
-    userInfo.user.real_name
-  }* vorrebbe prendersi delle ferie da: ${userInfo.startDate} a ${
-    userInfo.endDate
-  }`;
+  const msg = `Ciao *${userInfo.currentPm.real_name}*, *${userInfo.user.real_name}* vorrebbe prendersi delle ferie da: ${userInfo.startDate} a ${userInfo.endDate}`;
 
   try {
     await client.chat.postMessage({
