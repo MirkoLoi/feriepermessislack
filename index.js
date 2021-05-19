@@ -152,14 +152,12 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
-  const pms =
-    selectedOption.pms.length > 1
-      ? selectedOption.pms.split(",")
-      : selectedOption.pms;
+  const pms = selectedOption.pms.split(",");
   const users = await client.users.list();
 
   pms.shift();
 
+  console.log(pms.length);
   if (pms.length) {
     const holidayuser = users.members.find(
       (member) => member.id === selectedOption.user
@@ -172,7 +170,6 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
       startDate: selectedOption.sd,
       endDate: selectedOption.ed,
     };
-    console.log(userInfo);
     acceptRefuseHoliday(client, userInfo);
   } else {
     const pmUser = users.members.find((member) => member.id === body.user.id);
