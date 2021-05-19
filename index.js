@@ -158,7 +158,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   pms.shift();
 
-  console.log(pms.length);
+  console.log(pms, pms.length);
   if (pms.length) {
     const holidayuser = users.members.find(
       (member) => member.id === selectedOption.user
