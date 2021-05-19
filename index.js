@@ -152,7 +152,10 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
-  const pms = selectedOption.pms.split(",");
+  const pms =
+    selectedOption.pms.length > 1
+      ? selectedOption.pms.split(",")
+      : selectedOption.pms;
   const users = await client.users.list();
 
   pms.shift();
