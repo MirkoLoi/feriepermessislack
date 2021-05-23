@@ -152,18 +152,16 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
-  console.log("PMS CORRENTI", selectedOption.pms);
   const pms = selectedOption.pms.split(",");
-  console.log("PMS SPLIT", pms);
   const users = await client.users.list();
 
   pms.shift();
 
-  console.log("PMS SHIFT", pms, "PMS LENGTH", pms.length);
+  const holidayuser = users.members.find(
+    (member) => member.id === selectedOption.user
+  );
+
   if (pms.length) {
-    const holidayuser = users.members.find(
-      (member) => member.id === selectedOption.user
-    );
     const currentPm = users.members.find((member) => member.id === pms[0]);
     const userInfo = {
       selectedPms: pms,
