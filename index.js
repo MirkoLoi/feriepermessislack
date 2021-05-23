@@ -354,7 +354,7 @@ function createCalendarEvent(userInfo) {
         timeZone: "Europe/Amsterdam",
       },
       end: {
-        date: `${userInfo.startDate}`,
+        date: `${userInfo.endDate}`,
         timeZone: "Europe/Amsterdam",
       },
       recurrence: ["RRULE:FREQ=DAILY;COUNT=1"],
