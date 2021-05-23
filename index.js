@@ -312,13 +312,14 @@ function createCalendarEvent(userInfo) {
       description: `${userInfo.user.real_name} è in ferie 😊🏖️`,
       start: {
         dateTime: `${userInfo.startDate}`,
-        timeZone: "Europe/Rome",
+        timeZone: "Europe/Amsterdam",
       },
       end: {
         dateTime: `${userInfo.startDate}`,
-        timeZone: "Europe/Rome",
+        timeZone: "Europe/Amsterdam",
       },
-      attendees: [{ email: "mirko.loi@apuliasoft.com" }],
+      recurrence: ["RRULE:FREQ=DAILY;COUNT=1"],
+      attendees: [{ email: "nunzio.gianfelice@apuliasoft.com" }],
     };
 
     calendar.events.insert(
