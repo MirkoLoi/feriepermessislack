@@ -357,8 +357,7 @@ function createCalendarEvent(userInfo) {
         date: `${userInfo.endDate}`,
         timeZone: "Europe/Amsterdam",
       },
-      recurrence: ["RRULE:FREQ=DAILY;COUNT=1"],
-      attendees: [{ email: "mirko.loi@apuliasoft.com" }],
+      recurrence: ["RRULE:COUNT=1"],
     };
 
     calendar.events.insert(
