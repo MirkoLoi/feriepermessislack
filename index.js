@@ -302,12 +302,51 @@ function createCalendarEvent(userInfo) {
     authorize(JSON.parse(content), listEvents);
   });
 
+  function authorize(credentials, callback) {
+    const TOKEN_PATH = "token.json";
+    const { client_secret, client_id, redirect_uris } = credentials.web;
+    const oAuth2Client = new google.auth.OAuth2(
+      client_id,
+      client_secret,
+      redirect_uris[0]
+    );
+    fs.readFile(TOKEN_PATH, (err, token) => {
+      if (err) return getAccessToken(oAuth2Client, callback);
+      oAuth2Client.setCredentials(JSON.parse(token));
+      callback(oAuth2Client);
+    });
+  }
+
+  function getAccessToken(oAuth2Client, callback) {
+    const TOKEN_PATH = "token.json";
+    const authUrl = oAuth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: SCOPES,
+    });
+    console.log("Authorize this app by visiting this url:", authUrl);
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    rl.question("Enter the code from that page here: ", (code) => {
+      rl.close();
+      oAuth2Client.getToken(code, (err, token) => {
+        if (err) return console.error("Error retrieving access token", err);
+        oAuth2Client.setCredentials(token);
+        // Store the token to disk for later program executions
+        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+          if (err) return console.error(err);
+          console.log("Token stored to", TOKEN_PATH);
+        });
+        callback(oAuth2Client);
+      });
+    });
+  }
+
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    console.log(userInfo);
-
-    var event = {
+    const event = {
       summary: `Ferie ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in ferie 😊🏖️`,
       start: {
@@ -343,47 +382,6 @@ function createCalendarEvent(userInfo) {
     SCOPES,
     listEvents,
   };
-}
-
-function authorize(credentials, callback) {
-  const TOKEN_PATH = "token.json";
-  const { client_secret, client_id, redirect_uris } = credentials.web;
-  const oAuth2Client = new google.auth.OAuth2(
-    client_id,
-    client_secret,
-    redirect_uris[0]
-  );
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client, callback);
-    oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
-  });
-}
-
-function getAccessToken(oAuth2Client, callback) {
-  const TOKEN_PATH = "token.json";
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: "offline",
-    scope: SCOPES,
-  });
-  console.log("Authorize this app by visiting this url:", authUrl);
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  rl.question("Enter the code from that page here: ", (code) => {
-    rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error("Error retrieving access token", err);
-      oAuth2Client.setCredentials(token);
-      // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) return console.error(err);
-        console.log("Token stored to", TOKEN_PATH);
-      });
-      callback(oAuth2Client);
-    });
-  });
 }
 
 (async () => {
