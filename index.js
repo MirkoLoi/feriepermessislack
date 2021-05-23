@@ -350,15 +350,15 @@ function createCalendarEvent(userInfo) {
       summary: `Ferie ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in ferie 😊🏖️`,
       start: {
-        dateTime: `${userInfo.startDate}`,
+        date: `${userInfo.startDate}`,
         timeZone: "Europe/Amsterdam",
       },
       end: {
-        dateTime: `${userInfo.startDate}`,
+        date: `${userInfo.startDate}`,
         timeZone: "Europe/Amsterdam",
       },
       recurrence: ["RRULE:FREQ=DAILY;COUNT=1"],
-      attendees: [{ email: "nunzio.gianfelice@apuliasoft.com" }],
+      attendees: [{ email: "mirko.loi@apuliasoft.com" }],
     };
 
     calendar.events.insert(
