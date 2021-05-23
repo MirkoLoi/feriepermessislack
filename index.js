@@ -357,7 +357,6 @@ function createCalendarEvent(userInfo) {
         date: `${userInfo.endDate}`,
         timeZone: "Europe/Amsterdam",
       },
-      recurrence: ["RRULE:COUNT=1"],
     };
 
     calendar.events.insert(
