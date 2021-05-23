@@ -334,8 +334,8 @@ function createCalendarEvent(userInfo) {
         if (err) return console.error("Error retrieving access token", err);
         oAuth2Client.setCredentials(token);
         // Store the token to disk for later program executions
-        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-          if (err) return console.error(err);
+        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (error) => {
+          if (error) return console.error(error);
           console.log("Token stored to", TOKEN_PATH);
         });
         callback(oAuth2Client);
