@@ -364,14 +364,12 @@ function createCalendarEvent(userInfo) {
         calendarId: "166es9g3ipji45cuk4fobo8msc@group.calendar.google.com",
         resource: event,
       },
-      function (err, event) {
+      (err) => {
         if (err) {
           console.log(
             "There was an error contacting the Calendar service: " + err
           );
-          return;
         }
-        console.log("Event created: %s", event.htmlLink);
       }
     );
   }
