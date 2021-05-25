@@ -117,6 +117,8 @@ bot.command("/ferie", async ({ ack, body, client }) => {
     console.error(error);
   }
 
+  console.log(body);
+
   try {
     await client.chat.update({
       channel: body.channel.id,
