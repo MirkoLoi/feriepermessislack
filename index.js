@@ -8,7 +8,7 @@ const bot = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-bot.command("/ferie", async ({ ack, body, client, view }) => {
+bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
   try {
@@ -110,7 +110,7 @@ bot.command("/ferie", async ({ ack, body, client, view }) => {
             },
           },
         ],
-        callback_id: "view_submission",
+        callback_id: "view_submission_holiday",
       },
     });
   } catch (error) {
@@ -118,28 +118,118 @@ bot.command("/ferie", async ({ ack, body, client, view }) => {
   }
 });
 
-bot.view("view_submission", async ({ ack, body, view, client }) => {
+bot.command("/permessi", async ({ ack, body, client }) => {
   await ack();
 
-  console.log(client);
-
   try {
-    await client.chat.update({
-      channel: body.response_urls.channel_id,
-      ts: body.hash,
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Grazie ho inviato la tua richiesta. Ricevarai a breve una risposta💪",
-          },
+    await client.views.open({
+      trigger_id: body.trigger_id,
+      view: {
+        type: "modal",
+        title: {
+          type: "plain_text",
+          text: "Richiesta Permesso",
+          emoji: true,
         },
-      ],
+        submit: {
+          type: "plain_text",
+          text: "Submit",
+          emoji: true,
+        },
+        close: {
+          type: "plain_text",
+          text: "Cancel",
+          emoji: true,
+        },
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `Ciao *${capitalize(body.user_name)}* 😊🏖️`,
+            },
+          },
+          {
+            type: "divider",
+          },
+          {
+            type: "input",
+            block_id: "permission-date-init",
+            element: {
+              type: "timepicker",
+              placeholder: {
+                type: "plain_text",
+                text: "Seleziona una data e un orario",
+                emoji: true,
+              },
+              action_id: "timepicker-action-init",
+            },
+            label: {
+              type: "plain_text",
+              text: "Inserisci la data e l'ora di inizio del tuo permesso 🕛",
+              emoji: true,
+            },
+          },
+          {
+            type: "input",
+            block_id: "permission-date-end",
+            element: {
+              type: "timepicker",
+              placeholder: {
+                type: "plain_text",
+                text: "Seleziona una data e un orario",
+                emoji: true,
+              },
+              action_id: "timepicker-action-end",
+            },
+            label: {
+              type: "plain_text",
+              text: "Inserisci la data e l'ora di fine del tuo permesso 🕡",
+              emoji: true,
+            },
+          },
+          {
+            type: "divider",
+          },
+          {
+            type: "input",
+            block_id: "permission-pm",
+            element: {
+              type: "multi_users_select",
+              placeholder: {
+                type: "plain_text",
+                text: "Seleziona PM",
+                emoji: true,
+              },
+              action_id: "pm_select-action",
+            },
+            label: {
+              type: "plain_text",
+              text: "Inserisci il/i PM a cui richiedi il permesso 🤞",
+              emoji: true,
+            },
+          },
+          {
+            type: "divider",
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere il permesso ✌️",
+            },
+          },
+        ],
+        callback_id: "view_submission_permission",
+      },
     });
   } catch (error) {
     console.error(error);
   }
+});
+
+bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
+  await ack();
 
   const viewBlock = view.state.values;
   const user = await client.users.list();
