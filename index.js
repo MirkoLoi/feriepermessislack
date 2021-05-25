@@ -113,7 +113,13 @@ bot.command("/ferie", async ({ ack, body, client }) => {
         callback_id: "view_submission",
       },
     });
+  } catch (error) {
+    console.error(error);
+  }
 
+  await ack();
+
+  try {
     await client.chat.update({
       channel: body.channel.id,
       ts: body.message.ts,
