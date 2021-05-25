@@ -116,13 +116,15 @@ bot.command("/ferie", async ({ ack, body, client, view }) => {
   } catch (error) {
     console.error(error);
   }
+});
 
-  console.log(client, view);
+bot.view("view_submission", async ({ ack, body, view, client }) => {
+  await ack();
 
   try {
     await client.chat.update({
-      channel: body.channel_id,
-      ts: body.trigger_id,
+      channel: body.channel.id,
+      ts: body.message.ts,
       blocks: [
         {
           type: "section",
@@ -136,10 +138,6 @@ bot.command("/ferie", async ({ ack, body, client, view }) => {
   } catch (error) {
     console.error(error);
   }
-});
-
-bot.view("view_submission", async ({ ack, body, view, client }) => {
-  await ack();
 
   const viewBlock = view.state.values;
   const user = await client.users.list();
