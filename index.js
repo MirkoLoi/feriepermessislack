@@ -121,7 +121,7 @@ bot.command("/ferie", async ({ ack, body, client, view }) => {
 bot.view("view_submission", async ({ ack, body, view, client }) => {
   await ack();
 
-  console.log(body);
+  console.log(view);
 
   try {
     await client.chat.update({
