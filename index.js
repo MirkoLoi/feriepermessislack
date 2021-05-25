@@ -8,7 +8,7 @@ const bot = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-bot.command("/ferie", async ({ ack, body, client }) => {
+bot.command("/ferie", async ({ ack, body, client, view }) => {
   await ack();
 
   try {
@@ -117,12 +117,12 @@ bot.command("/ferie", async ({ ack, body, client }) => {
     console.error(error);
   }
 
-  console.log(body);
+  console.log(client, view);
 
   try {
     await client.chat.update({
-      channel: body.channel.id,
-      ts: body.message.ts,
+      channel: body.channel_id,
+      ts: body.trigger_id,
       blocks: [
         {
           type: "section",
