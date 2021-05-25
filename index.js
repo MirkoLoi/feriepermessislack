@@ -128,7 +128,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
         type: "modal",
         title: {
           type: "plain_text",
-          text: "Richiesta Permesso",
+          text: "Richiesta Permessi",
           emoji: true,
         },
         submit: {
@@ -154,6 +154,24 @@ bot.command("/permessi", async ({ ack, body, client }) => {
           },
           {
             type: "input",
+            block_id: "permission-date",
+            element: {
+              type: "datepicker",
+              placeholder: {
+                type: "plain_text",
+                text: "Seleziona una data",
+                emoji: true,
+              },
+              action_id: "permission-action-date",
+            },
+            label: {
+              type: "plain_text",
+              text: "Inserisci la data del tuo permesso 📆",
+              emoji: true,
+            },
+          },
+          {
+            type: "input",
             block_id: "permission-date-init",
             element: {
               type: "timepicker",
@@ -166,7 +184,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
             },
             label: {
               type: "plain_text",
-              text: "Inserisci la data e l'ora di inizio del tuo permesso 🕛",
+              text: "Inserisci l'ora di inizio del tuo permesso 🕛",
               emoji: true,
             },
           },
@@ -184,7 +202,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
             },
             label: {
               type: "plain_text",
-              text: "Inserisci la data e l'ora di fine del tuo permesso 🕡",
+              text: "Inserisci l'ora di fine del tuo permesso 🕡",
               emoji: true,
             },
           },
