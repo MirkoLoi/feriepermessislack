@@ -113,6 +113,20 @@ bot.command("/ferie", async ({ ack, body, client }) => {
         callback_id: "view_submission",
       },
     });
+
+    await client.chat.update({
+      channel: body.channel.id,
+      ts: body.message.ts,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "Grazie ho inviato la tua richiesta. Ricevarai a breve una risposta💪",
+          },
+        },
+      ],
+    });
   } catch (error) {
     console.error(error);
   }
@@ -255,11 +269,6 @@ async function updateChat(client, body) {
             type: "mrkdwn",
             text: message,
           },
-        },
-      ],
-      attachments: [
-        {
-          actions: [],
         },
       ],
     });
