@@ -125,8 +125,8 @@ bot.view("view_submission", async ({ ack, body, view, client }) => {
 
   try {
     await client.chat.update({
-      channel: body.channel.id,
-      ts: body.message.ts,
+      channel: body.response_urls.channel_id,
+      ts: body.hash,
       blocks: [
         {
           type: "section",
