@@ -541,7 +541,7 @@ function createCalendarEvent(userInfo) {
 }
 
 function formatDate(date) {
-  return new Date(date).toDateString();
+  return new Date(date).toUTCString();
 }
 
 (async () => {
