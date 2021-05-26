@@ -423,7 +423,7 @@ async function updateChat(client, body) {
 }
 
 async function notifyResponse(client, pmUser, selectedOption) {
-  const acceptMessage = `Le tue ferie sono state accettate. 🥳🏆`;
+  const acceptMessage = `Le tue ferie sono state accettate. Registro che dal ${selectedOption.sd} al ${selectedOption.ed} sei ferie. 🥳🏆`;
   const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
 
   await client.chat.postMessage({
