@@ -541,8 +541,7 @@ function createCalendarEvent(userInfo) {
 }
 
 function formatDate(date) {
-  return new Date(date);
-  //dateFormat(date, "dd mmmm yyyy");
+  return new Date(date).toDateString();
 }
 
 (async () => {
