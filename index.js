@@ -335,11 +335,13 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
       endDate: selectedOption.ed,
     };
 
-    createCalendarEvent(userInfo);
-
     const pmUser = users.members.find((member) => member.id === body.user.id);
 
     notifyResponse(client, pmUser, selectedOption);
+
+    if (selectedOption.response) {
+      createCalendarEvent(userInfo);
+    }
   }
 });
 
