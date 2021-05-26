@@ -324,15 +324,15 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
       selectedPms: pms,
       currentPm: currentPm,
       user: holidayuser,
-      startDate: formatDate(selectedOption.sd),
-      endDate: formatDate(selectedOption.ed),
+      startDate: selectedOption.sd,
+      endDate: selectedOption.ed,
     };
     acceptRefuseHoliday(client, userInfo);
   } else {
     const userInfo = {
       user: holidayuser,
-      startDate: formatDate(selectedOption.sd),
-      endDate: formatDate(selectedOption.ed),
+      startDate: selectedOption.sd,
+      endDate: selectedOption.ed,
     };
 
     const pmUser = users.members.find((member) => member.id === body.user.id);
@@ -403,9 +403,9 @@ async function updateChat(client, body) {
 
   const message = `Grazie, ho registrato la risposta! Hai ${
     selectedOption.response ? "accettato" : "rifiutato"
-  } le ferie di ${holidayuser.real_name} dal ${selectedOption.sd} al ${
-    selectedOption.ed
-  }`;
+  } le ferie di ${holidayuser.real_name} dal ${formatDate(
+    selectedOption.sd
+  )} al ${formatDate(selectedOption.ed)}`;
 
   try {
     await client.chat.update({
@@ -427,7 +427,9 @@ async function updateChat(client, body) {
 }
 
 async function notifyResponse(client, pmUser, selectedOption) {
-  const acceptMessage = `Le tue ferie sono state accettate. Registro che dal ${selectedOption.sd} al ${selectedOption.ed} sei ferie. 🥳🏆`;
+  const acceptMessage = `Le tue ferie sono state accettate. Registro che dal ${formatDate(
+    selectedOption.sd
+  )} al ${formatDate(selectedOption.ed)} sei ferie. 🥳🏆`;
   const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
 
   await client.chat.postMessage({
