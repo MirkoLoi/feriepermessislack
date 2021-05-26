@@ -324,15 +324,15 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
       selectedPms: pms,
       currentPm: currentPm,
       user: holidayuser,
-      startDate: selectedOption.sd,
-      endDate: selectedOption.ed,
+      startDate: formatDate(selectedOption.sd),
+      endDate: formatDate(selectedOption.ed),
     };
     acceptRefuseHoliday(client, userInfo);
   } else {
     const userInfo = {
       user: holidayuser,
-      startDate: selectedOption.sd,
-      endDate: selectedOption.ed,
+      startDate: formatDate(selectedOption.sd),
+      endDate: formatDate(selectedOption.ed),
     };
 
     const pmUser = users.members.find((member) => member.id === body.user.id);
@@ -368,11 +368,7 @@ async function acceptRefuseHoliday(client, userInfo) {
             options: [
               {
                 value: `{ 
-                  "response": true, "sd": "${formatDate(
-                    userInfo.startDate
-                  )}", "ed": "${formatDate(userInfo.endDate)}", "pms": "${
-                  userInfo.selectedPms
-                }", "user": "${userInfo.user.id}"
+                  "response": true, "sd": "${userInfo.startDate}", "ed": "${userInfo.endDate}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -381,11 +377,7 @@ async function acceptRefuseHoliday(client, userInfo) {
               },
               {
                 value: `{ 
-                  "response": false, "sd": "${formatDate(
-                    userInfo.startDate
-                  )}", "ed": "${formatDate(userInfo.endDate)}", "pms": "${
-                  userInfo.selectedPms
-                }", "user": "${userInfo.user.id}"
+                  "response": false, "sd": "${userInfo.startDate}", "ed": "${userInfo.endDate}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
