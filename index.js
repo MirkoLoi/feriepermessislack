@@ -23,12 +23,12 @@ bot.command("/ferie", async ({ ack, body, client }) => {
         },
         submit: {
           type: "plain_text",
-          text: "Submit",
+          text: "Conferma",
           emoji: true,
         },
         close: {
           type: "plain_text",
-          text: "Cancel",
+          text: "Annulla",
           emoji: true,
         },
         blocks: [
@@ -273,6 +273,35 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   acceptRefuseHoliday(client, userInfo);
 });
 
+bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
+  await ack();
+
+  const viewBlock = view.state.values;
+  const user = await client.users.list();
+
+  const userClient = user.members.find((member) => member.id === body.user.id);
+
+  const pmUser = user.members.find(
+    (member) =>
+      member.id ===
+      viewBlock["permission-pm"]["pm_select-action"].selected_users[0]
+  );
+
+  const userInfo = {
+    selectedPms: viewBlock["permission-pm"]["pm_select-action"].selected_users,
+    currentPm: pmUser,
+    user: userClient,
+    permissonDate:
+      viewBlock["permission-date"]["permission-action-date"].selected_date,
+    permissonTimeEnd:
+      viewBlock["permission-date-init"]["timepicker-action-init"].selected_date,
+    permissonTimeInit:
+      viewBlock["permission-date-end"]["timepicker-action-end"].selected_date,
+  };
+
+  acceptRefuseHoliday(client, userInfo);
+});
+
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
@@ -289,7 +318,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
     (member) => member.id === selectedOption.user
   );
 
-  if (pms.length) {
+  if (pms.length && selectedOption.response) {
     const currentPm = users.members.find((member) => member.id === pms[0]);
     const userInfo = {
       selectedPms: pms,
