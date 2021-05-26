@@ -346,7 +346,11 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 });
 
 async function acceptRefuseHoliday(client, userInfo) {
-  const msg = `Ciao *${userInfo.currentPm.real_name}*, *${userInfo.user.real_name}* vorrebbe prendersi delle ferie da: ${userInfo.startDate} a ${userInfo.endDate}`;
+  const msg = `Ciao *${userInfo.currentPm.real_name}*, *${
+    userInfo.user.real_name
+  }* vorrebbe prendersi delle ferie da: ${formatDate(
+    userInfo.startDate
+  )} a ${formatDate(userInfo.endDate)}`;
 
   try {
     await client.chat.postMessage({
@@ -364,7 +368,11 @@ async function acceptRefuseHoliday(client, userInfo) {
             options: [
               {
                 value: `{ 
-                  "response": true, "sd": "${userInfo.startDate}", "ed": "${userInfo.endDate}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
+                  "response": true, "sd": "${formatDate(
+                    userInfo.startDate
+                  )}", "ed": "${formatDate(userInfo.endDate)}", "pms": "${
+                  userInfo.selectedPms
+                }", "user": "${userInfo.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -373,7 +381,11 @@ async function acceptRefuseHoliday(client, userInfo) {
               },
               {
                 value: `{ 
-                  "response": false, "sd": "${userInfo.startDate}", "ed": "${userInfo.endDate}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
+                  "response": false, "sd": "${formatDate(
+                    userInfo.startDate
+                  )}", "ed": "${formatDate(userInfo.endDate)}", "pms": "${
+                  userInfo.selectedPms
+                }", "user": "${userInfo.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -532,6 +544,10 @@ function createCalendarEvent(userInfo) {
     SCOPES,
     listEvents,
   };
+}
+
+function formatDate(date) {
+  return new Date(date).dateFormat(date, "dd mmmm yyyy");
 }
 
 (async () => {
