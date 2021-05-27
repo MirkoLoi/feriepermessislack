@@ -521,7 +521,7 @@ function createCalendarEvent(userInfo) {
         timeZone: "Europe/Rome",
       },
       end: {
-        date: `${endDate}`,
+        date: `${endDate.toLocaleDateString("it-IT")}`,
         timeZone: "Europe/Rome",
       },
     };
