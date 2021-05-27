@@ -507,7 +507,9 @@ function createCalendarEvent(userInfo) {
     const calendar = google.calendar({ version: "v3", auth });
 
     const startDate = new Date(userInfo.startDate);
-    const endDate = new Date(userInfo.endDate);
+    const endDate = new Date().setDate(userInfo.endDate.getDate() + 1);
+
+    console.log(endDate);
 
     const event = {
       summary: `Ferie ${userInfo.user.real_name}`,
@@ -517,7 +519,7 @@ function createCalendarEvent(userInfo) {
         timeZone: "Europe/Rome",
       },
       end: {
-        date: new Date().setDate(endDate.getDate() + 1),
+        date: endDate,
         timeZone: "Europe/Rome",
       },
     };
