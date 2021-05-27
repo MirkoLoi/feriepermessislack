@@ -505,17 +505,19 @@ function createCalendarEvent(userInfo) {
 
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
-    console.log(userInfo);
+
+    const startDate = new Date(userInfo.startDate);
+    const endDate = new Date(userInfo.endDate);
 
     const event = {
       summary: `Ferie ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in ferie 😊🏖️`,
       start: {
-        date: `${new Date(userInfo.startDate)}`,
+        date: startDate,
         timeZone: "Europe/Rome",
       },
       end: {
-        date: `${new Date(userInfo.endDate) + timedelta((days = 1))}`,
+        date: `${new Date(endDate.getDate() + 1)}`,
         timeZone: "Europe/Rome",
       },
     };
