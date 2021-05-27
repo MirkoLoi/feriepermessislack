@@ -507,7 +507,9 @@ function createCalendarEvent(userInfo) {
     const calendar = google.calendar({ version: "v3", auth });
 
     const startDate = new Date(userInfo.startDate);
-    const endDate = new Date().setDate(userInfo.endDate.getDate() + 1);
+    const endDate = new Date().setDate(
+      new Date(userInfo.endDate).getDate() + 1
+    );
 
     console.log(endDate);
 
