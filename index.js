@@ -506,10 +506,11 @@ function createCalendarEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    const startDate = new Date(userInfo.startDate).toLocaleDateString("it-IT");
-    const endDate = new Date(userInfo.endDate).setDate(
-      new Date(userInfo.endDate).getDate() + 1
-    );
+    const day = 24 * 60 * 60 * 1000;
+
+    const endDate = new Date(new Date(userInfo.endDate).getTime() + day)
+      .toISOString()
+      .split("T")[0];
 
     console.log(userInfo.startDate);
     console.log(endDate);
@@ -518,11 +519,11 @@ function createCalendarEvent(userInfo) {
       summary: `Ferie ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in ferie 😊🏖️`,
       start: {
-        date: `${userInfo.startDate}`,
+        date: userInfo.startDate,
         timeZone: "Europe/Rome",
       },
       end: {
-        date: `${endDate}`,
+        date: endDate,
         timeZone: "Europe/Rome",
       },
     };
