@@ -511,19 +511,19 @@ function createCalendarEvent(userInfo) {
       new Date(userInfo.endDate).getTime() + 24 * 60 * 60 * 1000
     );
 
-    console.log(startDate);
+    console.log(userInfo.startDate);
     console.log(endDate);
 
     const event = {
       summary: `Ferie ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in ferie 😊🏖️`,
       start: {
-        date: `${startDate}`,
-        timeZone: "Europe/Amsterdam",
+        date: `${userInfo.startDate}`,
+        timeZone: "Europe/Rome",
       },
       end: {
-        date: `${endDate}`,
-        timeZone: "Europe/Amsterdam",
+        date: `${userInfo.endDate}`,
+        timeZone: "Europe/Rome",
       },
     };
 
