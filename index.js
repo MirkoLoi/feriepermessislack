@@ -507,7 +507,7 @@ function createCalendarEvent(userInfo) {
     const calendar = google.calendar({ version: "v3", auth });
 
     const startDate = new Date(userInfo.startDate);
-    const endDate = new Date()(
+    const endDate = new Date(
       new Date(userInfo.endDate).getTime() + 24 * 60 * 60 * 1000
     ).toLocaleDateString("it-IT");
 
