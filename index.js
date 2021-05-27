@@ -511,11 +511,11 @@ function createCalendarEvent(userInfo) {
       summary: `Ferie ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in ferie 😊🏖️`,
       start: {
-        date: `${userInfo.startDate}`,
+        date: `${new Date(userInfo.startDate)}`,
         timeZone: "Europe/Rome",
       },
       end: {
-        date: `${userInfo.endDate}`,
+        date: `${new Date(userInfo.endDate)}`,
         timeZone: "Europe/Rome",
       },
     };
