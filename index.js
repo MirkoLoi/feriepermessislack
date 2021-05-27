@@ -509,7 +509,7 @@ function createCalendarEvent(userInfo) {
     const startDate = new Date(userInfo.startDate);
     const endDate = new Date(
       new Date(userInfo.endDate).getTime() + 24 * 60 * 60 * 1000
-    );
+    ).toDateString();
 
     console.log(userInfo.startDate);
     console.log(endDate);
@@ -522,7 +522,7 @@ function createCalendarEvent(userInfo) {
         timeZone: "Europe/Rome",
       },
       end: {
-        date: `${userInfo.endDate}`,
+        date: `${endDate}`,
         timeZone: "Europe/Rome",
       },
     };
