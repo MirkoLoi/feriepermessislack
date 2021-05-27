@@ -348,7 +348,7 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 async function acceptRefuseHoliday(client, userInfo) {
   const msg = `Ciao *${userInfo.currentPm.real_name}*, *${
     userInfo.user.real_name
-  }* vorrebbe prendersi delle ferie da: ${formatDate(
+  }* vorrebbe prendersi delle ferie dal: ${formatDate(
     userInfo.startDate
   )} a ${formatDate(userInfo.endDate)}`;
 
@@ -505,6 +505,7 @@ function createCalendarEvent(userInfo) {
 
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
+    console.log(userInfo);
 
     const event = {
       summary: `Ferie ${userInfo.user.real_name}`,
