@@ -509,7 +509,7 @@ function createCalendarEvent(userInfo) {
     const startDate = new Date(userInfo.startDate);
     const endDate = new Date(
       new Date(userInfo.endDate).getTime() + 24 * 60 * 60 * 1000
-    ).toLocaleDateString("it-IT");
+    );
 
     console.log(endDate);
 
