@@ -507,9 +507,9 @@ function createCalendarEvent(userInfo) {
     const calendar = google.calendar({ version: "v3", auth });
 
     const startDate = new Date(userInfo.startDate);
-    const endDate = new Date().setDate(
-      new Date(userInfo.endDate).getDate() + 1
-    );
+    const endDate = new Date()(
+      new Date(userInfo.endDate).getTime() + 24 * 60 * 60 * 1000
+    ).toLocaleDateString("it-IT");
 
     console.log(endDate);
 
@@ -521,7 +521,7 @@ function createCalendarEvent(userInfo) {
         timeZone: "Europe/Rome",
       },
       end: {
-        date: `${endDate.toLocaleDateString("it-IT")}`,
+        date: `${endDate}`,
         timeZone: "Europe/Rome",
       },
     };
