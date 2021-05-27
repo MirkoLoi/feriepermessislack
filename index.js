@@ -517,7 +517,7 @@ function createCalendarEvent(userInfo) {
         timeZone: "Europe/Rome",
       },
       end: {
-        date: `${new Date(endDate.getDate() + 1)}`,
+        date: new Date().setDate(endDate.getDate() + 1),
         timeZone: "Europe/Rome",
       },
     };
