@@ -350,16 +350,16 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   }
 });
 
-async function acceptRefuseHoliday(client, userInfo) {
-  const msg = `Ciao *${userInfo.currentPm.real_name}*, *${
-    userInfo.user.real_name
+async function acceptRefuseHoliday(client, user) {
+  const msg = `Ciao *${user.currentPm.real_name}*, *${
+    user.user.real_name
   }* vorrebbe prendersi delle ferie dal: ${formatDate(
-    userInfo.startDate
-  )} a ${formatDate(userInfo.endDate)}`;
+    user.startDate
+  )} a ${formatDate(user.endDate)}`;
 
   try {
     await client.chat.postMessage({
-      channel: userInfo.currentPm.id,
+      channel: user.currentPm.id,
       blocks: [
         {
           type: "section",
@@ -373,7 +373,7 @@ async function acceptRefuseHoliday(client, userInfo) {
             options: [
               {
                 value: `{ 
-                  "response": true, "sd": "${userInfo.startDate}", "ed": "${userInfo.endDate}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
+                  "response": true, "sd": "${user.startDate}", "ed": "${user.endDate}", "pms": "${user.selectedPms}", "user": "${user.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -382,7 +382,7 @@ async function acceptRefuseHoliday(client, userInfo) {
               },
               {
                 value: `{ 
-                  "response": false, "sd": "${userInfo.startDate}", "ed": "${userInfo.endDate}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
+                  "response": false, "sd": "${user.startDate}", "ed": "${user.endDate}", "pms": "${user.selectedPms}", "user": "${user.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -420,19 +420,14 @@ async function acceptRefusePermission(client, userInfo) {
             action_id: "accept_refuse",
             options: [
               {
-                value: `{ 
-                  "response": true, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", "et": "${userInfo.pTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
-                }`,
+                value: `{ "response": true, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", "et": "${userInfo.pTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
                 text: {
                   type: "plain_text",
                   text: "Accetta",
                 },
               },
               {
-                value: `{ 
-                  "response": false, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", 
-                  "et": "${userInfo.permissonTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
-                }`,
+                value: `{"response": false, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", "et": "${userInfo.permissonTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
                 text: {
                   type: "plain_text",
                   text: "Rifiuta",
