@@ -293,6 +293,8 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
       viewBlock["permission-pm"]["pm_select-action"].selected_users[0]
   );
 
+  console.log(viewBlock["permission-date-init"]);
+
   const userInfo = {
     selectedPms: viewBlock["permission-pm"]["pm_select-action"].selected_users,
     currentPm: pmUser,
