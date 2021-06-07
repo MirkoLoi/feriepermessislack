@@ -299,19 +299,19 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
     user: userClient,
     permissonDate:
       viewBlock["permission-date"]["permission-action-date"].selected_date,
-    permissonTimeEnd:
-      viewBlock["permission-date-init"]["timepicker-action-init"].selected_date,
     permissonTimeInit:
+      viewBlock["permission-date-init"]["timepicker-action-init"].selected_date,
+    permissonTimeEnd:
       viewBlock["permission-date-end"]["timepicker-action-end"].selected_date,
   };
 
-  acceptRefuseHoliday(client, userInfo);
+  acceptRefusePermission(client, userInfo);
 });
 
 bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
   await ack();
 
-  updateChat(client, body);
+  updateChatHoliday(client, body);
 
   const selectedOption = JSON.parse(payload.selected_option.value);
 
@@ -399,8 +399,58 @@ async function acceptRefuseHoliday(client, userInfo) {
     console.error(error);
   }
 }
+async function acceptRefusePermission(client, userInfo) {
+  const msg = `Ciao *${userInfo.currentPm.real_name}*, *${
+    userInfo.user.real_name
+  }* vorrebbe prendersi un permesso il: ${formatDate(
+    userInfo.permissonDate
+  )} dalle ${userInfo.permissonTimeInit} alle ${userInfo.permissonTimeEnd}`;
 
-async function updateChat(client, body) {
+  try {
+    await client.chat.postMessage({
+      channel: userInfo.currentPm.id,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: msg,
+          },
+          accessory: {
+            type: "radio_buttons",
+            action_id: "accept_refuse",
+            options: [
+              {
+                value: `{ 
+                  "response": true, "d": "${userInfo.permissonDate}", "st": "${userInfo.permissonTimeInit}", 
+                  "et": "${userInfo.permissonTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
+                }`,
+                text: {
+                  type: "plain_text",
+                  text: "Accetta",
+                },
+              },
+              {
+                value: `{ 
+                  "response": false, "d": "${userInfo.permissonDate}", "st": "${userInfo.permissonTimeInit}", 
+                  "et": "${userInfo.permissonTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
+                }`,
+                text: {
+                  type: "plain_text",
+                  text: "Rifiuta",
+                },
+              },
+            ],
+          },
+        },
+      ],
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function updateChatHoliday(client, body) {
   const selectedOption = JSON.parse(body.actions[0].selected_option.value);
   const users = await client.users.list();
   const holidayuser = users.members.find(
