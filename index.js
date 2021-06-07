@@ -11,7 +11,8 @@ const bot = new App({
 bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
-  console.log(body);
+  const users = await client.users.list();
+  const userClient = users.members.find((member) => member.id === body.user_id);
 
   try {
     await client.views.open({
@@ -38,7 +39,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `Ciao *${capitalize(body.user_name)}* 😊🏖️`,
+              text: `Ciao *${userClient.real_name}* 😊🏖️`,
             },
           },
           {
@@ -123,6 +124,9 @@ bot.command("/ferie", async ({ ack, body, client }) => {
 bot.command("/permessi", async ({ ack, body, client }) => {
   await ack();
 
+  const users = await client.users.list();
+  const userClient = users.members.find((member) => member.id === body.user_id);
+
   try {
     await client.views.open({
       trigger_id: body.trigger_id,
@@ -148,7 +152,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `Ciao *${capitalize(body.user_name)}* 😊🏖️`,
+              text: `Ciao *${userClient.real_name}* 😊🏖️`,
             },
           },
           {
@@ -253,8 +257,6 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
 
   const viewBlock = view.state.values;
   const users = await client.users.list();
-
-  console.log(users);
 
   const userClient = users.members.find((member) => member.id === body.user.id);
 
@@ -451,13 +453,6 @@ async function notifyResponse(client, pmUser, selectedOption) {
   });
 }
 
-function capitalize(name) {
-  let capital = name.split(".", 1)[0];
-  capital = capital.charAt(0).toUpperCase() + capital.slice(1);
-
-  return capital;
-}
-
 function createCalendarEvent(userInfo) {
   const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
@@ -514,9 +509,6 @@ function createCalendarEvent(userInfo) {
     const endDate = new Date(new Date(userInfo.endDate).getTime() + day)
       .toISOString()
       .split("T")[0];
-
-    console.log(userInfo.startDate);
-    console.log(endDate);
 
     const event = {
       summary: `Ferie ${userInfo.user.real_name}`,
