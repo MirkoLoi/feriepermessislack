@@ -297,11 +297,10 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
     selectedPms: viewBlock["permission-pm"]["pm_select-action"].selected_users,
     currentPm: pmUser,
     user: userClient,
-    permissonDate:
-      viewBlock["permission-date"]["permission-action-date"].selected_date,
-    permissonTimeInit:
+    pDate: viewBlock["permission-date"]["permission-action-date"].selected_date,
+    pTimeInit:
       viewBlock["permission-date-init"]["timepicker-action-init"].selected_date,
-    permissonTimeEnd:
+    pTimeEnd:
       viewBlock["permission-date-end"]["timepicker-action-end"].selected_date,
   };
 
@@ -402,9 +401,9 @@ async function acceptRefuseHoliday(client, userInfo) {
 async function acceptRefusePermission(client, userInfo) {
   const msg = `Ciao *${userInfo.currentPm.real_name}*, *${
     userInfo.user.real_name
-  }* vorrebbe prendersi un permesso il: ${formatDate(
-    userInfo.permissonDate
-  )} dalle ${userInfo.permissonTimeInit} alle ${userInfo.permissonTimeEnd}`;
+  }* vorrebbe prendersi un permesso il: ${formatDate(userInfo.pDate)} dalle ${
+    userInfo.pTimeInit
+  } alle ${userInfo.pTimeEnd}`;
 
   try {
     await client.chat.postMessage({
@@ -422,8 +421,7 @@ async function acceptRefusePermission(client, userInfo) {
             options: [
               {
                 value: `{ 
-                  "response": true, "d": "${userInfo.permissonDate}", "st": "${userInfo.permissonTimeInit}", 
-                  "et": "${userInfo.permissonTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
+                  "response": true, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", "et": "${userInfo.pTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
                 }`,
                 text: {
                   type: "plain_text",
@@ -432,7 +430,7 @@ async function acceptRefusePermission(client, userInfo) {
               },
               {
                 value: `{ 
-                  "response": false, "d": "${userInfo.permissonDate}", "st": "${userInfo.permissonTimeInit}", 
+                  "response": false, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", 
                   "et": "${userInfo.permissonTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"
                 }`,
                 text: {
