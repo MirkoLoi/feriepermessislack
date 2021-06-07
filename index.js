@@ -11,6 +11,8 @@ const bot = new App({
 bot.command("/ferie", async ({ ack, body, client }) => {
   await ack();
 
+  console.log(body);
+
   try {
     await client.views.open({
       trigger_id: body.trigger_id,
@@ -250,11 +252,13 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   await ack();
 
   const viewBlock = view.state.values;
-  const user = await client.users.list();
+  const users = await client.users.list();
 
-  const userClient = user.members.find((member) => member.id === body.user.id);
+  console.log(users);
 
-  const pmUser = user.members.find(
+  const userClient = users.members.find((member) => member.id === body.user.id);
+
+  const pmUser = users.members.find(
     (member) =>
       member.id ===
       viewBlock["holiday-pm"]["pm_select-action"].selected_users[0]
@@ -471,13 +475,13 @@ function createCalendarEvent(userInfo) {
       redirect_uris[0]
     );
     fs.readFile(TOKEN_PATH, (err, token) => {
-      if (err) return getAccessToken(oAuth2Client, callback);
+      if (err) return getAccessToken(oAuth2Client, callback, SCOPES);
       oAuth2Client.setCredentials(JSON.parse(token));
       callback(oAuth2Client);
     });
   }
 
-  function getAccessToken(oAuth2Client, callback) {
+  function getAccessToken(oAuth2Client, callback, SCOPES) {
     const TOKEN_PATH = "token.json";
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",
@@ -493,7 +497,6 @@ function createCalendarEvent(userInfo) {
       oAuth2Client.getToken(code, (err, token) => {
         if (err) return console.error("Error retrieving access token", err);
         oAuth2Client.setCredentials(token);
-        // Store the token to disk for later program executions
         fs.writeFile(TOKEN_PATH, JSON.stringify(token), (error) => {
           if (error) return console.error(error);
           console.log("Token stored to", TOKEN_PATH);
