@@ -528,6 +528,7 @@ async function updateChatHoliday(client, body) {
 
 async function updateChatPermission(client, body) {
   const selectedOption = JSON.parse(body.actions[0].selected_option.value);
+  console.log(selectedOption);
   const users = await client.users.list();
   const permissionUser = users.members.find(
     (member) => member.id === selectedOption.user
@@ -565,6 +566,29 @@ async function notifyResponseHoliday(client, pmUser, selectedOption) {
     selectedOption.sd
   )} al ${formatDate(selectedOption.ed)} sei ferie. 🥳🏆`;
   const refuseMessage = `Le tue ferie sono state rifiutate. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti le ferie. Grazie👋`;
+
+  await client.chat.postMessage({
+    channel: selectedOption.user,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            selectedOption.response === true ? acceptMessage : refuseMessage,
+        },
+      },
+    ],
+  });
+}
+
+async function notifyResponsePermission(client, pmUser, selectedOption) {
+  const acceptMessage = `Ilc tuo permesso è stato accettato. Registro che il ${formatDate(
+    selectedOption.d
+  )} dalle ${formatDate(selectedOption.st)} alle ${formatDate(
+    selectedOption.et
+  )} sei in permesso.`;
+  const refuseMessage = `Il tuo permesso è stato rifiutato. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti il permesso. Grazie👋`;
 
   await client.chat.postMessage({
     channel: selectedOption.user,
