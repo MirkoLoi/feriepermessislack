@@ -538,9 +538,7 @@ async function updateChatPermission(client, body) {
     selectedOption.response ? "accettato" : "rifiutato"
   } il permesso di ${permissionUser.real_name} del ${formatDate(
     selectedOption.d
-  )} dalle ${formatDate(selectedOption.st)} alle ${formatDate(
-    selectedOption.et
-  )}`;
+  )} dalle ${selectedOption.st} alle ${selectedOption.et}`;
 
   try {
     await client.chat.update({
