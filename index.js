@@ -299,17 +299,17 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
     selectedPms: viewBlock["permission-pm"]["pm_select-action"].selected_users,
     currentPm: pmUser,
     user: userClient,
-    pDate: viewBlock["permission-date"]["permission-action-date"].selected_date,
-    pTimeInit:
+    date: viewBlock["permission-date"]["permission-action-date"].selected_date,
+    startTime:
       viewBlock["permission-date-init"]["timepicker-action-init"].selected_time,
-    pTimeEnd:
+    endTime:
       viewBlock["permission-date-end"]["timepicker-action-end"].selected_time,
   };
 
   acceptRefusePermission(client, userInfo);
 });
 
-bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
+bot.action("accept_refuse_holiday", async ({ ack, payload, body, client }) => {
   await ack();
 
   updateChatHoliday(client, body);
@@ -344,13 +344,61 @@ bot.action("accept_refuse", async ({ ack, payload, body, client }) => {
 
     const pmUser = users.members.find((member) => member.id === body.user.id);
 
-    notifyResponse(client, pmUser, selectedOption);
+    notifyResponseHoliday(client, pmUser, selectedOption);
 
     if (selectedOption.response) {
-      createCalendarEvent(userInfo);
+      createCalendarHolidayEvent(userInfo);
     }
   }
 });
+
+bot.action(
+  "accept_refuse_permission",
+  async ({ ack, payload, body, client }) => {
+    await ack();
+
+    updateChatPermission(client, body);
+
+    const selectedOption = JSON.parse(payload.selected_option.value);
+
+    const pms = selectedOption.pms.split(",");
+    const users = await client.users.list();
+
+    pms.shift();
+
+    const permissionUser = users.members.find(
+      (member) => member.id === selectedOption.user
+    );
+
+    if (pms.length && selectedOption.response) {
+      const currentPm = users.members.find((member) => member.id === pms[0]);
+      const userInfo = {
+        selectedPms: pms,
+        currentPm: currentPm,
+        user: permissionUser,
+        date: selectedOption.d,
+        startTime: selectedOption.st,
+        endTime: selectedOption.et,
+      };
+      acceptRefusePermission(client, userInfo);
+    } else {
+      const userInfo = {
+        user: permissionUser,
+        date: selectedOption.d,
+        startTime: selectedOption.st,
+        endTime: selectedOption.et,
+      };
+
+      const pmUser = users.members.find((member) => member.id === body.user.id);
+
+      notifyResponsePermission(client, pmUser, selectedOption);
+
+      if (selectedOption.response) {
+        createCalendarPermissionEvent(userInfo);
+      }
+    }
+  }
+);
 
 async function acceptRefuseHoliday(client, user) {
   const msg = `Ciao *${user.currentPm.real_name}*, *${
@@ -371,7 +419,7 @@ async function acceptRefuseHoliday(client, user) {
           },
           accessory: {
             type: "radio_buttons",
-            action_id: "accept_refuse",
+            action_id: "accept_refuse_holiday",
             options: [
               {
                 value: `{ 
@@ -400,12 +448,13 @@ async function acceptRefuseHoliday(client, user) {
     console.error(error);
   }
 }
+
 async function acceptRefusePermission(client, userInfo) {
   const msg = `Ciao *${userInfo.currentPm.real_name}*, *${
     userInfo.user.real_name
-  }* vorrebbe prendersi un permesso il: ${formatDate(userInfo.pDate)} dalle ${
-    userInfo.pTimeInit
-  } alle ${userInfo.pTimeEnd}`;
+  }* vorrebbe prendersi un permesso il: ${formatDate(userInfo.date)} dalle ${
+    userInfo.startTime
+  } alle ${userInfo.endTime}`;
 
   try {
     await client.chat.postMessage({
@@ -419,17 +468,17 @@ async function acceptRefusePermission(client, userInfo) {
           },
           accessory: {
             type: "radio_buttons",
-            action_id: "accept_refuse",
+            action_id: "accept_refuse_permission",
             options: [
               {
-                value: `{ "response": true, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", "et": "${userInfo.pTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
+                value: `{ "response": true, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
                 text: {
                   type: "plain_text",
                   text: "Accetta",
                 },
               },
               {
-                value: `{"response": false, "d": "${userInfo.pDate}", "st": "${userInfo.pTimeInit}", "et": "${userInfo.permissonTimeEnd}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
+                value: `{"response": false, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
                 text: {
                   type: "plain_text",
                   text: "Rifiuta",
@@ -477,7 +526,41 @@ async function updateChatHoliday(client, body) {
   }
 }
 
-async function notifyResponse(client, pmUser, selectedOption) {
+async function updateChatPermission(client, body) {
+  const selectedOption = JSON.parse(body.actions[0].selected_option.value);
+  const users = await client.users.list();
+  const permissionUser = users.members.find(
+    (member) => member.id === selectedOption.user
+  );
+
+  const message = `Grazie, ho registrato la risposta! Hai ${
+    selectedOption.response ? "accettato" : "rifiutato"
+  } il permesso di ${permissionUser.real_name} del ${formatDate(
+    selectedOption.d
+  )} dalle ${formatDate(selectedOption.st)} alle ${formatDate(
+    selectedOption.et
+  )}`;
+
+  try {
+    await client.chat.update({
+      channel: body.channel.id,
+      ts: body.message.ts,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: message,
+          },
+        },
+      ],
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function notifyResponseHoliday(client, pmUser, selectedOption) {
   const acceptMessage = `Le tue ferie sono state accettate. Registro che dal ${formatDate(
     selectedOption.sd
   )} al ${formatDate(selectedOption.ed)} sei ferie. 🥳🏆`;
@@ -498,7 +581,7 @@ async function notifyResponse(client, pmUser, selectedOption) {
   });
 }
 
-function createCalendarEvent(userInfo) {
+function createCalendarHolidayEvent(userInfo) {
   const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
   fs.readFile("credentials.json", (err, content) => {
@@ -564,6 +647,91 @@ function createCalendarEvent(userInfo) {
       },
       end: {
         date: endDate,
+        timeZone: "Europe/Rome",
+      },
+    };
+
+    calendar.events.insert(
+      {
+        calendarId: "166es9g3ipji45cuk4fobo8msc@group.calendar.google.com",
+        resource: event,
+      },
+      (err) => {
+        if (err) {
+          console.log(
+            "There was an error contacting the Calendar service: " + err
+          );
+        }
+      }
+    );
+  }
+
+  module.exports = {
+    SCOPES,
+    listEvents,
+  };
+}
+
+function createCalendarPermissionEvent(userInfo) {
+  const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
+
+  fs.readFile("credentials.json", (err, content) => {
+    if (err) return console.log("Error loading client secret file:", err);
+    authorize(JSON.parse(content), listEvents);
+  });
+
+  function authorize(credentials, callback) {
+    const TOKEN_PATH = "token.json";
+    const { client_secret, client_id, redirect_uris } = credentials.web;
+    const oAuth2Client = new google.auth.OAuth2(
+      client_id,
+      client_secret,
+      redirect_uris[0]
+    );
+    fs.readFile(TOKEN_PATH, (err, token) => {
+      if (err) return getAccessToken(oAuth2Client, callback, SCOPES);
+      oAuth2Client.setCredentials(JSON.parse(token));
+      callback(oAuth2Client);
+    });
+  }
+
+  function getAccessToken(oAuth2Client, callback, SCOPES) {
+    const TOKEN_PATH = "token.json";
+    const authUrl = oAuth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: SCOPES,
+    });
+    console.log("Authorize this app by visiting this url:", authUrl);
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    rl.question("Enter the code from that page here: ", (code) => {
+      rl.close();
+      oAuth2Client.getToken(code, (err, token) => {
+        if (err) return console.error("Error retrieving access token", err);
+        oAuth2Client.setCredentials(token);
+        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (error) => {
+          if (error) return console.error(error);
+          console.log("Token stored to", TOKEN_PATH);
+        });
+        callback(oAuth2Client);
+      });
+    });
+  }
+
+  function listEvents(auth) {
+    const calendar = google.calendar({ version: "v3", auth });
+
+    const event = {
+      summary: `Permesso ${userInfo.user.real_name}`,
+      description: `${userInfo.user.real_name} è in permesso`,
+      start: {
+        dateTime: `${userInfo.date}T${userInfo.statTime}:00.000`,
+        timeZone: "Europe/Rome",
+      },
+      end: {
+        dateTime: `${userInfo.date}T${userInfo.endTime}:00.000`,
         timeZone: "Europe/Rome",
       },
     };
