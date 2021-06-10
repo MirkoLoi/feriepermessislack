@@ -109,7 +109,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere le ferie_ ✌️",
+              text: "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richiedere le ferie_ ✌️",
             },
           },
         ],
@@ -240,7 +240,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richeidere il permesso ✌️",
+              text: "*PS:* _Se stai lavorando in consulenza non dimeticarti di consultare il tuo referente esterno, prima di richiedere il permesso_ ✌️",
             },
           },
         ],
@@ -301,9 +301,9 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
     user: userClient,
     pDate: viewBlock["permission-date"]["permission-action-date"].selected_date,
     pTimeInit:
-      viewBlock["permission-date-init"]["timepicker-action-init"].selected_date,
+      viewBlock["permission-date-init"]["timepicker-action-init"].selected_time,
     pTimeEnd:
-      viewBlock["permission-date-end"]["timepicker-action-end"].selected_date,
+      viewBlock["permission-date-end"]["timepicker-action-end"].selected_time,
   };
 
   acceptRefusePermission(client, userInfo);
