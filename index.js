@@ -528,7 +528,6 @@ async function updateChatHoliday(client, body) {
 
 async function updateChatPermission(client, body) {
   const selectedOption = JSON.parse(body.actions[0].selected_option.value);
-  console.log(selectedOption);
   const users = await client.users.list();
   const permissionUser = users.members.find(
     (member) => member.id === selectedOption.user
@@ -540,6 +539,7 @@ async function updateChatPermission(client, body) {
     selectedOption.d
   )} dalle ${selectedOption.st} alle ${selectedOption.et}`;
 
+  console.log(message);
   try {
     await client.chat.update({
       channel: body.channel.id,
