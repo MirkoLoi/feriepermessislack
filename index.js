@@ -741,17 +741,18 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    console.log(`${userInfo.date}T${userInfo.st}:00`);
+    console.log(userInfo);
+    console.log(`${userInfo.date}T${userInfo.startTime}:00`);
 
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.st}:00`,
+        dateTime: `${userInfo.date}T${userInfo.startTime}:00`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.et}:t00`,
+        dateTime: `${userInfo.date}T${userInfo.endTime}:t00`,
         timeZone: "Europe/Rome",
       },
     };
