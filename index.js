@@ -741,9 +741,6 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    console.log(userInfo);
-    console.log(`${userInfo.date}T${userInfo.startTime}:00+2:00 `);
-
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
