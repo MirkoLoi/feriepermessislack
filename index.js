@@ -539,7 +539,6 @@ async function updateChatPermission(client, body) {
     selectedOption.d
   )} dalle ${selectedOption.st} alle ${selectedOption.et}`;
 
-  console.log(message);
   try {
     await client.chat.update({
       channel: body.channel.id,
@@ -581,11 +580,9 @@ async function notifyResponseHoliday(client, pmUser, selectedOption) {
 }
 
 async function notifyResponsePermission(client, pmUser, selectedOption) {
-  const acceptMessage = `Ilc tuo permesso è stato accettato. Registro che il ${formatDate(
+  const acceptMessage = `Il tuo permesso è stato accettato. Registro che il ${formatDate(
     selectedOption.d
-  )} dalle ${formatDate(selectedOption.st)} alle ${formatDate(
-    selectedOption.et
-  )} sei in permesso.`;
+  )} dalle ${selectedOption.st} alle ${selectedOption.et} sei in permesso.`;
   const refuseMessage = `Il tuo permesso è stato rifiutato. Per favore contatta *${pmUser.real_name}*, in modo da capirne il motivo e riprogrammarti il permesso. Grazie👋`;
 
   await client.chat.postMessage({
@@ -699,10 +696,10 @@ function createCalendarPermissionEvent(userInfo) {
 
   fs.readFile("credentials.json", (err, content) => {
     if (err) return console.log("Error loading client secret file:", err);
-    authorize(JSON.parse(content), listEvents);
+    authorizeCalendarPermission(JSON.parse(content), listEvents);
   });
 
-  function authorize(credentials, callback) {
+  function authorizeCalendarPermission(credentials, callback) {
     const TOKEN_PATH = "token.json";
     const { client_secret, client_id, redirect_uris } = credentials.web;
     const oAuth2Client = new google.auth.OAuth2(
@@ -711,13 +708,14 @@ function createCalendarPermissionEvent(userInfo) {
       redirect_uris[0]
     );
     fs.readFile(TOKEN_PATH, (err, token) => {
-      if (err) return getAccessToken(oAuth2Client, callback, SCOPES);
+      if (err)
+        return getAccessTokenCalendarPermission(oAuth2Client, callback, SCOPES);
       oAuth2Client.setCredentials(JSON.parse(token));
       callback(oAuth2Client);
     });
   }
 
-  function getAccessToken(oAuth2Client, callback, SCOPES) {
+  function getAccessTokenCalendarPermission(oAuth2Client, callback, SCOPES) {
     const TOKEN_PATH = "token.json";
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",
@@ -745,15 +743,17 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
+    console.log(`${userInfo.date}T${userInfo.statTime}:00`);
+
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.statTime}:00.000`,
+        dateTime: `${userInfo.date}T${userInfo.statTime}:00`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.endTime}:00.000`,
+        dateTime: `${userInfo.date}T${userInfo.endTime}:00`,
         timeZone: "Europe/Rome",
       },
     };
