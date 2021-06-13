@@ -293,8 +293,6 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
       viewBlock["permission-pm"]["pm_select-action"].selected_users[0]
   );
 
-  console.log(viewBlock["permission-date-init"]);
-
   const userInfo = {
     selectedPms: viewBlock["permission-pm"]["pm_select-action"].selected_users,
     currentPm: pmUser,
@@ -743,17 +741,17 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    console.log(`${userInfo.date}T${userInfo.statTime}:00`);
+    console.log(`${userInfo.date}T${userInfo.st}:00`);
 
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.statTime}:00`,
+        dateTime: `${userInfo.date}T${userInfo.st}:00`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.endTime}:00`,
+        dateTime: `${userInfo.date}T${userInfo.et}:t00`,
         timeZone: "Europe/Rome",
       },
     };
