@@ -670,7 +670,7 @@ function createCalendarHolidayEvent(userInfo) {
 
     calendar.events.insert(
       {
-        calendarId: "166es9g3ipji45cuk4fobo8msc@group.calendar.google.com",
+        calendarId: "c_njeu1asa7kjja8seipj1rrd22k@group.calendar.google.com",
         resource: event,
       },
       (err) => {
@@ -756,7 +756,7 @@ function createCalendarPermissionEvent(userInfo) {
 
     calendar.events.insert(
       {
-        calendarId: "166es9g3ipji45cuk4fobo8msc@group.calendar.google.com",
+        calendarId: "c_njeu1asa7kjja8seipj1rrd22k@group.calendar.google.com",
         resource: event,
       },
       (err) => {
