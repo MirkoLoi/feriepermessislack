@@ -1,7 +1,10 @@
-version: "1"
+version: "3.8"
 services:
   web:
-    build: .
+    container_name: server
+    build:
+      context: ./
+      dockerfile: ./apps/server/Dockerfile
     command: npm run --prod
     volumes:
       - .:/usr/src/app
