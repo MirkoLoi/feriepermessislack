@@ -3,9 +3,9 @@ services:
   web:
     container_name: server
     build:
-      context: ./
-      dockerfile: ./apps/server/Dockerfile
-    command: npm run --prod
+      context: .
+      dockerfile: Dockerfile
+    command: npm start
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
