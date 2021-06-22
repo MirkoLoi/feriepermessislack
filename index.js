@@ -3,6 +3,8 @@ const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
 
+require("dotenv").config();
+
 const bot = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   token: process.env.SLACK_BOT_TOKEN,
@@ -405,6 +407,14 @@ async function acceptRefuseHoliday(client, user) {
     user.startDate
   )} a ${formatDate(user.endDate)}`;
 
+  const accept = `{ 
+    "response": true, "sd": "${user.startDate}", "ed": "${user.endDate}", "pms": "${user.selectedPms}", "user": "${user.user.id}"
+  }`;
+
+  const refuse = `{ 
+    "response": false, "sd": "${user.startDate}", "ed": "${user.endDate}", "pms": "${user.selectedPms}", "user": "${user.user.id}"
+  }`,
+
   try {
     await client.chat.postMessage({
       channel: user.currentPm.id,
@@ -420,18 +430,14 @@ async function acceptRefuseHoliday(client, user) {
             action_id: "accept_refuse_holiday",
             options: [
               {
-                value: `{ 
-                  "response": true, "sd": "${user.startDate}", "ed": "${user.endDate}", "pms": "${user.selectedPms}", "user": "${user.user.id}"
-                }`,
+                value: accept,
                 text: {
                   type: "plain_text",
                   text: "Accetta",
                 },
               },
               {
-                value: `{ 
-                  "response": false, "sd": "${user.startDate}", "ed": "${user.endDate}", "pms": "${user.selectedPms}", "user": "${user.user.id}"
-                }`,
+                value: refuse,
                 text: {
                   type: "plain_text",
                   text: "Rifiuta",
@@ -454,6 +460,9 @@ async function acceptRefusePermission(client, userInfo) {
     userInfo.startTime
   } alle ${userInfo.endTime}`;
 
+  const accept = `{ "response": true, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
+  const refuse = `{ "response": false, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
+
   try {
     await client.chat.postMessage({
       channel: userInfo.currentPm.id,
@@ -469,14 +478,14 @@ async function acceptRefusePermission(client, userInfo) {
             action_id: "accept_refuse_permission",
             options: [
               {
-                value: `{ "response": true, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
+                value: accept,
                 text: {
                   type: "plain_text",
                   text: "Accetta",
                 },
               },
               {
-                value: `{"response": false, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
+                value: refuse,
                 text: {
                   type: "plain_text",
                   text: "Rifiuta",
