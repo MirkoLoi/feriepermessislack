@@ -413,7 +413,7 @@ async function acceptRefuseHoliday(client, user) {
 
   const refuse = `{ 
     "response": false, "sd": "${user.startDate}", "ed": "${user.endDate}", "pms": "${user.selectedPms}", "user": "${user.user.id}"
-  }`,
+  }`;
 
   try {
     await client.chat.postMessage({
@@ -460,8 +460,8 @@ async function acceptRefusePermission(client, userInfo) {
     userInfo.startTime
   } alle ${userInfo.endTime}`;
 
-  const accept = `{ "response": true, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
-  const refuse = `{ "response": false, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`,
+  const accept = `{ "response": true, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`;
+  const refuse = `{ "response": false, "d": "${userInfo.date}", "st": "${userInfo.startTime}", "et": "${userInfo.endTime}", "pms": "${userInfo.selectedPms}", "user": "${userInfo.user.id}"}`;
 
   try {
     await client.chat.postMessage({
