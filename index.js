@@ -754,11 +754,15 @@ function createCalendarPermissionEvent(userInfo) {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.startTime}:00+02:00`,
+        dateTime: `${userInfo.date}T${userInfo.startTime}:${isDST(
+          userInfo.date
+        )}`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.endTime}:00+02:00`,
+        dateTime: `${userInfo.date}T${userInfo.endTime}:${isDST(
+          userInfo.date
+        )}`,
         timeZone: "Europe/Rome",
       },
     };
@@ -795,3 +799,9 @@ function formatDate(date) {
 
   console.log("⚡️ Bolt app is running!");
 })();
+
+function isDST(d) {
+  let jan = new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
+  let jul = new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
+  return Math.max(jan, jul) !== d.getTimezoneOffset() ? "00+01:00" : "00+02:00";
+}
