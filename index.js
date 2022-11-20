@@ -759,7 +759,7 @@ function createCalendarPermissionEvent(userInfo) {
     console.log(timezone);
 
     const event = {
-      summary: `Permesso ${userInfo.user.real_name}`,
+      summary: `Permesso test ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
         dateTime: `${userInfo.date}T${userInfo.startTime}:${timezone}`,
