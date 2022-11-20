@@ -11,13 +11,13 @@ const bot = new App({
 });
 
 bot.command("/ferie", async ({ ack, body, client }) => {
-  ack();
+  await ack();
 
-  const users = client.users.list();
+  const users = await client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
 
   try {
-    client.views.open({
+    await client.views.open({
       trigger_id: body.trigger_id,
       view: {
         type: "modal",
