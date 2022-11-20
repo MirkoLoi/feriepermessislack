@@ -136,7 +136,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
         type: "modal",
         title: {
           type: "plain_text",
-          text: "Richiesta Permessi",
+          text: "Richiesta Permessi ???",
           emoji: true,
         },
         submit: {
@@ -257,8 +257,6 @@ bot.command("/permessi", async ({ ack, body, client }) => {
 bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   await ack();
 
-  console.log("prova");
-
   const viewBlock = view.state.values;
   const users = await client.users.list();
 
@@ -285,8 +283,6 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
 
 bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
   await ack();
-
-  console.log("prova");
 
   const viewBlock = view.state.values;
   const user = await client.users.list();
