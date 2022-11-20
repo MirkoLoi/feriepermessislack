@@ -750,15 +750,19 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
+    const timezone = isDST(userInfo.date);
+
+    console.log(timezone);
+
     const event = {
-      summary: `Permesso ${userInfo.user.real_name}`,
+      summary: `Permesso proviamo ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.startTime}:00+02:00`,
+        dateTime: `${userInfo.date}T${userInfo.startTime}:${timezone}`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.endTime}:00+02:00`,
+        dateTime: `${userInfo.date}T${userInfo.endTime}:${timezone}`,
         timeZone: "Europe/Rome",
       },
     };
@@ -786,6 +790,13 @@ function createCalendarPermissionEvent(userInfo) {
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString("it-IT");
+}
+
+function isDST(d) {
+  let jan = new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
+  let jul = new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
+  console.log(Math.max(jan, jul) !== d.getTimezoneOffset());
+  return Math.max(jan, jul) !== d.getTimezoneOffset() ? "00+01:00" : "00+02:00";
 }
 
 (async () => {
