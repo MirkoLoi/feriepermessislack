@@ -279,6 +279,13 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   };
 
   acceptRefuseHoliday(client, userInfo);
+
+  return json_encode([
+    {
+      status: 200,
+      message: "",
+    },
+  ]);
 });
 
 bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
@@ -307,6 +314,13 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
   };
 
   acceptRefusePermission(client, userInfo);
+
+  return json_encode([
+    {
+      status: 200,
+      message: "",
+    },
+  ]);
 });
 
 bot.action("accept_refuse_holiday", async ({ ack, payload, body, client }) => {
