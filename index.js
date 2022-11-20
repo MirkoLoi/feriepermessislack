@@ -11,8 +11,6 @@ const bot = new App({
 });
 
 bot.command("/ferie", async ({ ack, body, client }) => {
-  await ack();
-
   const users = await client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
 
@@ -121,11 +119,10 @@ bot.command("/ferie", async ({ ack, body, client }) => {
   } catch (error) {
     console.error(error);
   }
+  await ack();
 });
 
 bot.command("/permessi", async ({ ack, body, client }) => {
-  await ack();
-
   const users = await client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
 
@@ -136,7 +133,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
         type: "modal",
         title: {
           type: "plain_text",
-          text: "Richiesta Permessi ???",
+          text: "Richiesta Permessi",
           emoji: true,
         },
         submit: {
@@ -252,11 +249,11 @@ bot.command("/permessi", async ({ ack, body, client }) => {
   } catch (error) {
     console.error(error);
   }
+
+  await ack();
 });
 
 bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
-  await ack();
-
   const viewBlock = view.state.values;
   const users = await client.users.list();
 
@@ -279,11 +276,11 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   };
 
   acceptRefuseHoliday(client, userInfo);
+
+  await ack();
 });
 
 bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
-  await ack();
-
   const viewBlock = view.state.values;
   const user = await client.users.list();
 
@@ -307,11 +304,11 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
   };
 
   acceptRefusePermission(client, userInfo);
+
+  await ack();
 });
 
 bot.action("accept_refuse_holiday", async ({ ack, payload, body, client }) => {
-  await ack();
-
   updateChatHoliday(client, body);
 
   const selectedOption = JSON.parse(payload.selected_option.value);
@@ -350,6 +347,8 @@ bot.action("accept_refuse_holiday", async ({ ack, payload, body, client }) => {
       createCalendarHolidayEvent(userInfo);
     }
   }
+
+  await ack();
 });
 
 bot.action(
@@ -759,7 +758,7 @@ function createCalendarPermissionEvent(userInfo) {
     console.log(timezone);
 
     const event = {
-      summary: `Permesso proviamo ${userInfo.user.real_name}`,
+      summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
         dateTime: `${userInfo.date}T${userInfo.startTime}:${timezone}`,
