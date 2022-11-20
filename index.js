@@ -11,6 +11,8 @@ const bot = new App({
 });
 
 bot.command("/ferie", async ({ ack, body, client }) => {
+  await ack();
+
   const users = await client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
 
@@ -119,11 +121,11 @@ bot.command("/ferie", async ({ ack, body, client }) => {
   } catch (error) {
     console.error(error);
   }
-
-  return await ack();
 });
 
 bot.command("/permessi", async ({ ack, body, client }) => {
+  await ack();
+
   const users = await client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
 
@@ -250,11 +252,11 @@ bot.command("/permessi", async ({ ack, body, client }) => {
   } catch (error) {
     console.error(error);
   }
-
-  return await ack();
 });
 
 bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
+  await ack();
+
   const viewBlock = view.state.values;
   const users = await client.users.list();
 
@@ -277,11 +279,11 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   };
 
   acceptRefuseHoliday(client, userInfo);
-
-  return await ack();
 });
 
 bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
+  await ack();
+
   const viewBlock = view.state.values;
   const user = await client.users.list();
 
@@ -305,11 +307,11 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
   };
 
   acceptRefusePermission(client, userInfo);
-
-  return await ack();
 });
 
 bot.action("accept_refuse_holiday", async ({ ack, payload, body, client }) => {
+  await ack();
+
   updateChatHoliday(client, body);
 
   const selectedOption = JSON.parse(payload.selected_option.value);
@@ -348,13 +350,13 @@ bot.action("accept_refuse_holiday", async ({ ack, payload, body, client }) => {
       createCalendarHolidayEvent(userInfo);
     }
   }
-
-  return await ack();
 });
 
 bot.action(
   "accept_refuse_permission",
   async ({ ack, payload, body, client }) => {
+    await ack();
+
     updateChatPermission(client, body);
 
     const selectedOption = JSON.parse(payload.selected_option.value);
@@ -395,7 +397,6 @@ bot.action(
         createCalendarPermissionEvent(userInfo);
       }
     }
-    return await ack();
   }
 );
 
@@ -735,11 +736,7 @@ function createCalendarPermissionEvent(userInfo) {
     rl.question("Enter the code from that page here: ", (code) => {
       rl.close();
       oAuth2Client.getToken(code, (err, token) => {
-        if (err)
-          return console.error(
-            "Error retrieving access token in permission",
-            err
-          );
+        if (err) return console.error("Error retrieving access token", err);
         oAuth2Client.setCredentials(token);
         fs.writeFile(TOKEN_PATH, JSON.stringify(token), (error) => {
           if (error) return console.error(error);
@@ -753,19 +750,15 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    const timezone = isDST(userInfo.date);
-
-    console.log(timezone);
-
     const event = {
-      summary: `Permesso proviamo ${userInfo.user.real_name}`,
+      summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.startTime}:${timezone}`,
+        dateTime: `${userInfo.date}T${userInfo.startTime}:00+02:00`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.endTime}:${timezone}`,
+        dateTime: `${userInfo.date}T${userInfo.endTime}:00+02:00`,
         timeZone: "Europe/Rome",
       },
     };
@@ -793,13 +786,6 @@ function createCalendarPermissionEvent(userInfo) {
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString("it-IT");
-}
-
-function isDST(d) {
-  let jan = new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
-  let jul = new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
-  console.log(Math.max(jan, jul) !== d.getTimezoneOffset());
-  return Math.max(jan, jul) !== d.getTimezoneOffset() ? "00+01:00" : "00+02:00";
 }
 
 (async () => {
