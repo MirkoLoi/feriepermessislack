@@ -257,6 +257,8 @@ bot.command("/permessi", async ({ ack, body, client }) => {
 bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   await ack();
 
+  console.log("prova");
+
   const viewBlock = view.state.values;
   const users = await client.users.list();
 
@@ -279,17 +281,12 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   };
 
   acceptRefuseHoliday(client, userInfo);
-
-  return json_encode([
-    {
-      status: 200,
-      message: "",
-    },
-  ]);
 });
 
 bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
   await ack();
+
+  console.log("prova");
 
   const viewBlock = view.state.values;
   const user = await client.users.list();
@@ -314,13 +311,6 @@ bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
   };
 
   acceptRefusePermission(client, userInfo);
-
-  return json_encode([
-    {
-      status: 200,
-      message: "",
-    },
-  ]);
 });
 
 bot.action("accept_refuse_holiday", async ({ ack, payload, body, client }) => {
