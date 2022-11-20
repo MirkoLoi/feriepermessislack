@@ -11,7 +11,7 @@ const bot = new App({
 });
 
 bot.command("/ferie", async ({ ack, body, client }) => {
-  await ack({ response_action: "success" });
+  await ack();
 
   const users = await client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
@@ -121,6 +121,8 @@ bot.command("/ferie", async ({ ack, body, client }) => {
   } catch (error) {
     console.error(error);
   }
+
+  res.send();
 });
 
 bot.command("/permessi", async ({ ack, body, client }) => {
