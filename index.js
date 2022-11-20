@@ -736,7 +736,11 @@ function createCalendarPermissionEvent(userInfo) {
     rl.question("Enter the code from that page here: ", (code) => {
       rl.close();
       oAuth2Client.getToken(code, (err, token) => {
-        if (err) return console.error("Error retrieving access token", err);
+        if (err)
+          return console.error(
+            "Error retrieving access token in permission",
+            err
+          );
         oAuth2Client.setCredentials(token);
         fs.writeFile(TOKEN_PATH, JSON.stringify(token), (error) => {
           if (error) return console.error(error);
@@ -750,19 +754,19 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
+    const timezone = isDST(userInfo.date);
+
+    console.log(timezone);
+
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.startTime}:${isDST(
-          userInfo.date
-        )}`,
+        dateTime: `${userInfo.date}T${userInfo.startTime}:${timezone}`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.endTime}:${isDST(
-          userInfo.date
-        )}`,
+        dateTime: `${userInfo.date}T${userInfo.endTime}:${timezone}`,
         timeZone: "Europe/Rome",
       },
     };
