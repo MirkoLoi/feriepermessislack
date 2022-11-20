@@ -11,13 +11,13 @@ const bot = new App({
 });
 
 bot.command("/ferie", async ({ ack, body, client }) => {
-  await ack();
+  ack();
 
-  const users = await client.users.list();
+  const users = client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
 
   try {
-    await client.views.open({
+    client.views.open({
       trigger_id: body.trigger_id,
       view: {
         type: "modal",
@@ -116,22 +116,12 @@ bot.command("/ferie", async ({ ack, body, client }) => {
           },
         ],
         callback_id: "view_submission_holiday",
+        clear_on_close: true,
       },
-      response_action: "clear",
     });
   } catch (error) {
     console.error(error);
   }
-
-  returnobject = {
-    statusCode: 200,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: "",
-    response_action: "clear",
-  };
-  return await ack(returnobject);
 });
 
 bot.command("/permessi", async ({ ack, body, client }) => {
