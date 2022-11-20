@@ -249,7 +249,6 @@ bot.command("/permessi", async ({ ack, body, client }) => {
         callback_id: "view_submission_permission",
       },
     });
-    await ack();
   } catch (error) {
     console.error(error);
   }
@@ -257,8 +256,6 @@ bot.command("/permessi", async ({ ack, body, client }) => {
 
 bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
   await ack();
-
-  console.log("test");
 
   const viewBlock = view.state.values;
   const users = await client.users.list();
@@ -286,8 +283,6 @@ bot.view("view_submission_holiday", async ({ ack, body, view, client }) => {
 
 bot.view("view_submission_permission", async ({ ack, body, view, client }) => {
   await ack();
-
-  console.log("test");
 
   const viewBlock = view.state.values;
   const user = await client.users.list();
