@@ -23,7 +23,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
         type: "modal",
         title: {
           type: "plain_text",
-          text: "Richiesta Ferie",
+          text: "Richiesta Ferie!",
           emoji: true,
         },
         submit: {
@@ -122,6 +122,16 @@ bot.command("/ferie", async ({ ack, body, client }) => {
   } catch (error) {
     console.error(error);
   }
+
+  returnobject = {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: "",
+    response_action: "clear",
+  };
+  return returnobject;
 });
 
 bot.command("/permessi", async ({ ack, body, client }) => {
