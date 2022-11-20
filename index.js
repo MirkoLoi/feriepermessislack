@@ -11,7 +11,7 @@ const bot = new App({
 });
 
 bot.command("/ferie", async ({ ack, body, client }) => {
-  await ack(200);
+  await ack({ response_action: "success" });
 
   const users = await client.users.list();
   const userClient = users.members.find((member) => member.id === body.user_id);
