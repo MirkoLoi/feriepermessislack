@@ -117,6 +117,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
         ],
         callback_id: "view_submission_holiday",
       },
+      response_action: "clear",
     });
   } catch (error) {
     console.error(error);
@@ -248,6 +249,7 @@ bot.command("/permessi", async ({ ack, body, client }) => {
         ],
         callback_id: "view_submission_permission",
       },
+      response_action: "clear",
     });
   } catch (error) {
     console.error(error);
