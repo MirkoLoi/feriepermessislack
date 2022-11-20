@@ -131,7 +131,7 @@ bot.command("/ferie", async ({ ack, body, client }) => {
     body: "",
     response_action: "clear",
   };
-  return returnobject;
+  return await ack(returnobject);
 });
 
 bot.command("/permessi", async ({ ack, body, client }) => {
