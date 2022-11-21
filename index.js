@@ -750,7 +750,7 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    const timezone = isDST(userInfo.date);
+    const timezone = isDST(new Date(userInfo.date));
 
     console.log(timezone);
 
