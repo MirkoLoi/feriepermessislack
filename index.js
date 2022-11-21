@@ -763,11 +763,11 @@ function createCalendarPermissionEvent(userInfo) {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${startDate}`,
+        dateTime: `${userInfo.date}T${startDate}`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${endDate}`,
+        dateTime: `${userInfo.date}T${endDate}`,
         timeZone: "Europe/Rome",
       },
     };
