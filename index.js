@@ -752,10 +752,8 @@ function createCalendarPermissionEvent(userInfo) {
 
     const startDate = new Date(
       `${userInfo.date} ${userInfo.startTime}`
-    ).toISOString();
-    const endDate = new Date(
-      `${userInfo.date} ${userInfo.endTime}`
-    ).toISOString();
+    ).toString();
+    const endDate = new Date(`${userInfo.date} ${userInfo.endTime}`).toString();
 
     // const timezone = date.toISOString(); //isDST(new Date(userInfo.date));
 
