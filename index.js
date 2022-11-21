@@ -752,8 +752,6 @@ function createCalendarPermissionEvent(userInfo) {
 
     const timezone = isDST(new Date(userInfo.date));
 
-    console.log(timezone);
-
     const event = {
       summary: `Permesso proviamo ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
@@ -796,7 +794,7 @@ function isDST(d) {
   let jan = new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
   let jul = new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
   console.log(Math.max(jan, jul) !== d.getTimezoneOffset());
-  return Math.max(jan, jul) !== d.getTimezoneOffset() ? "00+01:00" : "00+02:00";
+  return Math.max(jan, jul) !== d.getTimezoneOffset() ? "00+02:00" : "00+01:00";
 }
 
 (async () => {
