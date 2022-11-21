@@ -759,8 +759,6 @@ function createCalendarPermissionEvent(userInfo) {
 
     // const timezone = date.toISOString(); //isDST(new Date(userInfo.date));
 
-    console.log(timezone);
-
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
