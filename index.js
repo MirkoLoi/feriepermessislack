@@ -750,9 +750,14 @@ function createCalendarPermissionEvent(userInfo) {
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
 
-    const date = new Date(`${userInfo.date} ${userInfo.startTime}`);
+    const startDate = new Date(
+      `${userInfo.date} ${userInfo.startTime}`
+    ).toISOString();
+    const endDate = new Date(
+      `${userInfo.date} ${userInfo.endTime}`
+    ).toISOString();
 
-    const timezone = date.toISOString(); //isDST(new Date(userInfo.date));
+    // const timezone = date.toISOString(); //isDST(new Date(userInfo.date));
 
     console.log(timezone);
 
@@ -760,11 +765,11 @@ function createCalendarPermissionEvent(userInfo) {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
       start: {
-        dateTime: `${userInfo.date}T${userInfo.startTime}:${timezone}`,
+        dateTime: `${startDate}`,
         timeZone: "Europe/Rome",
       },
       end: {
-        dateTime: `${userInfo.date}T${userInfo.endTime}:${timezone}`,
+        dateTime: `${endDate}`,
         timeZone: "Europe/Rome",
       },
     };
