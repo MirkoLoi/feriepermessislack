@@ -752,12 +752,10 @@ function createCalendarPermissionEvent(userInfo) {
 
     const startDate = new Date(
       `${userInfo.date} ${userInfo.startTime}`
-    ).toUTCString();
+    ).toISOString();
     const endDate = new Date(
       `${userInfo.date} ${userInfo.endTime}`
-    ).toUTCString();
-
-    console.log(startDate, endDate);
+    ).toISOString();
 
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
