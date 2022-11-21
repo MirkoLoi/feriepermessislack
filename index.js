@@ -755,6 +755,8 @@ function createCalendarPermissionEvent(userInfo) {
     ).toString();
     const endDate = new Date(`${userInfo.date} ${userInfo.endTime}`).toString();
 
+    console.log(startDate, endDate);
+
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
