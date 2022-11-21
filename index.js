@@ -757,8 +757,6 @@ function createCalendarPermissionEvent(userInfo) {
       `${userInfo.date} ${userInfo.endTime}`
     ).toLocaleTimeString("it-IT");
 
-    console.log(startDate);
-
     const event = {
       summary: `Permesso ${userInfo.user.real_name}`,
       description: `${userInfo.user.real_name} è in permesso`,
